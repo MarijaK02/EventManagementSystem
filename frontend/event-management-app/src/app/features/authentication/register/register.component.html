@@ -1,0 +1,56 @@
+<div class="container">
+  <h2>Регистрирај се!</h2>
+  <form *ngIf="!!registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Kорисничко име</mat-label>
+        <input
+         matInput
+          type="text"
+          placeholder="Внесете корисничко име"
+          formControlName="username"
+          class="form-control"
+        />
+        <mat-error>
+          Корисничкото име мора да содржи повеќе од 3 карактери.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Е-mail</mat-label>
+        <input
+         matInput
+          type="email"
+          placeholder="Внесете e-mail"
+          formControlName="email"
+          class="form-control"
+        />
+        <mat-error>
+          Ве молиме внесете валидна е-mail адреса
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form-control">
+     <app-shared-password-input
+        [control]="getPasswordControl()"
+        [label]="'Лозинка'"
+        [placeholder]="'Внесете лозинка'"
+        [errorMassage]="getPasswordErrorMessage()"
+      ></app-shared-password-input>
+    </div>
+
+    <div class="form-control">
+      <app-shared-password-input
+        [control]="getConfirmPasswordControl()"
+        [label]="'Потврди лозинка'"
+        [placeholder]="'Внесете ја повторно лозинката'"
+        [errorMassage]="getConfirmPasswordErrorMessage()"
+      ></app-shared-password-input>
+    </div>
+
+    <button mat-flat-button type="submit" class="submit-button" [disabled]="registerForm.invalid">Потврди</button>
+  </form>
+</div>
