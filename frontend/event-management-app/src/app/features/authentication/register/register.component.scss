@@ -1,0 +1,18 @@
+.container {
+  width: 400px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.form-control{
+  width: 100%;
+}
+
+mat-form-field, :host::ng-deep app-shared-password-input > mat-form-field{
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+.submit-button{
+  margin-top: 2px;
+}
