@@ -5,16 +5,32 @@ export function passwordMatchValidator(controlName: string, matchingControlName:
     const control = formGroup.get(controlName);
     const matchingControl = formGroup.get(matchingControlName);
 
-    if (matchingControl?.errors && !matchingControl.errors['passwordMismatch']) {
+    if (!control || !matchingControl) {
       return null;
     }
 
-    if (control?.value !== matchingControl?.value) {
-      matchingControl?.setErrors({ mismatch: true });
+    const password = control.value;
+
+    
+    const uppercaseRegex = /[A-Z]/;
+    const specialCharRegex = /[!@#$%^&*(),.?":{}|<>]/;
+
+    if (!uppercaseRegex.test(password) || !specialCharRegex.test(password)) {
+      control.setErrors({ invalidPassword: true });
+      return { invalidPassword: true };
+    } else {
+      control.setErrors(null);
+    }
+
+    
+    if (password !== matchingControl.value) {
+      matchingControl.setErrors({ mismatch: true });
       return { passwordsMismatch: true };
     } else {
-      matchingControl?.setErrors(null);
-      return null;
+      matchingControl.setErrors(null);
     }
+
+    return null;
   };
 }
+
