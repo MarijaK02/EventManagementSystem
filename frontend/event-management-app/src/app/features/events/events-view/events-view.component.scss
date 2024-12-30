@@ -1,0 +1,58 @@
+@use '../../../../my-theme.scss' as my-theme;
+
+.event-wrapper{
+  display: flex;
+  width: 100%;
+  min-height: 51.5rem;
+}
+
+.event-container {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr); /* Two cards per row */
+  gap: 15px; /* Increased gap between cards */
+  padding: 20px;
+  width: 100%;
+  height: 100%;
+}
+
+.page-title {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* For smaller screens (tablet and mobile) */
+@media (max-width: 768px) {
+  .event-container {
+    grid-template-columns: 1fr; /* One card per row */
+  }
+}
+
+@media (max-width: 480px) {
+  .page-title {
+    font-size: 1.5rem;
+  }
+}
+
+app-side-filter-bar{
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  background-color: my-theme.$side-nav-color;
+  padding: 1rem;
+  overflow-y: auto;
+
+  position: sticky;
+  width: 15%;
+
+  ::ng-deep mat-form-field{
+    padding-bottom: 1rem;
+    width: 100%;
+  }
+}
+
+.badge{
+  ::ng-deep span{
+    margin: var(--mat-badge-container-offset, -20px 0);
+  }
+}
+
