@@ -1,0 +1,67 @@
+@use '../../../../my-theme.scss' as my-theme;
+
+mat-toolbar{
+  background-color: my-theme.$nav-color;
+  height: fit-content;
+  padding-top: 0.4rem;
+  padding-bottom: 0.2rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
+.nav{
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+h5{
+  font-weight: bolder;
+}
+
+.left{
+  display: flex;
+  width: 70%;
+  align-items: center;
+}
+
+.home, .events, .contact{
+  ::ng-deep .mdc-button__label{
+    display:flex;
+  }
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+button:hover{
+  background-color: my-theme.$nav-button-hover;
+}
+
+.right{
+  display: flex;
+  align-items: center;
+
+  .profile-button{
+    height: 2rem;
+  }
+}
+
+.logo-image{
+  height: auto;
+  margin-top: 0.3rem;
+
+  img{
+    height: 3rem;
+  }
+}
+
+.active-link {
+  background-color: my-theme.$nav-link-active-color;  /* Set to your desired color */
+  border-radius: 4px;  /* Optional: adds rounded corners */
+}
+
+
+
+
+

@@ -1,0 +1,38 @@
+<div class="event-form">
+    <h2>Edit Event</h2>
+    <form [formGroup]="editEventForm" (ngSubmit)="updateEvent()">
+      <mat-form-field appearance="fill">
+        <mat-label>Event Name</mat-label>
+        <input matInput formControlName="name" placeholder="Enter event name" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Event Date</mat-label>
+        <input matInput type="date" formControlName="date" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Capacity</mat-label>
+        <input matInput type="number" formControlName="capacity" placeholder="Enter capacity" />
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Event Type</mat-label>
+        <mat-select formControlName="type">
+          <mat-option *ngFor="let type of eventTypes" [value]="type">{{ type }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill">
+        <mat-label>Status</mat-label>
+        <mat-select formControlName="status">
+          <mat-option *ngFor="let status of eventStatuses" [value]="status">{{ status }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+  
+      <div class="form-actions">
+        <button mat-raised-button color="primary" type="submit" [disabled]="!editEventForm.valid">Update</button>
+        <button mat-button type="button" (click)="editEventForm.reset()">Reset</button>
+      </div>
+    </form>
+  </div>
