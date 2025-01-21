@@ -23,6 +23,7 @@ import {MatTimepickerModule} from '@angular/material/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { SideFilterBarComponent } from './side-filter-bar/side-filter-bar.component';
 
+
 @NgModule({
   declarations: [
     SharedPasswordInputComponent,

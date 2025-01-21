@@ -18,9 +18,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import {MatBadgeModule} from '@angular/material/badge';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { EventEditComponent } from './event-edit/event-edit.component';
+import { EventCreateComponent } from './event-create/event-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  declarations: [EventsViewComponent, EventCardComponent],
+  declarations: [EventsViewComponent, EventCardComponent, EventEditComponent, EventCreateComponent],
   imports: [
     CommonModule,
     MatTabsModule, // Ensure MatTabsModule is imported
@@ -38,7 +42,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     MatCardModule,
     MatButtonModule,
     MatBadgeModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ReactiveFormsModule,
+    RouterModule
   ],
   providers: []
 })

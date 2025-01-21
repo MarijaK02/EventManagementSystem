@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { EventData } from '../../../core/data_holder/events-data';
 import { EventStatus, EventType } from '../../../core/models/event';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-events-view',
@@ -21,6 +22,12 @@ export class EventsViewComponent implements OnInit {
   selectedTime: string | null = null;
   selectedCapacity: number | null = null;
   selectedEventTypes: { [key in EventType]: boolean } = {} as any;
+
+  showCreateForm = false;
+  showEditForm = false;
+  selectedEvent: any = null;
+
+  constructor(private router: Router) {}
 
   ngOnInit(): void {
     // Initialize selected event types as unchecked
@@ -67,5 +74,35 @@ export class EventsViewComponent implements OnInit {
       this.selectedEventTypes[type] = false;
     });
     this.filteredEvents = [...this.todayEvents];
+  }
+
+  handleEditEvent(event: any): void {
+    this.selectedEvent = event;
+    this.showCreateForm = false;
+    this.showEditForm = true;
+  }
+
+  openCreateEvent(): void {
+    this.showCreateForm = true;
+    this.showEditForm = false;
+  }
+
+  openEditEvent(event: any): void {
+    this.selectedEvent = event;
+    this.showEditForm = true;
+    this.showCreateForm = false;
+  }
+
+  handleEventCreated(newEvent: any): void {
+    this.todayEvents.push(newEvent);
+    this.showCreateForm = false;
+  }
+
+  handleEventUpdated(updatedEvent: any): void {
+    const index = this.todayEvents.findIndex(event => event === updatedEvent.id);
+    if (index !== -1) {
+      this.todayEvents[index] = updatedEvent;
+    }
+    this.showEditForm = false;
   }
 }

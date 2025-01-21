@@ -1,3 +1,9 @@
+<div class="action-buttons">
+  <button mat-raised-button color="primary" (click)="openCreateEvent()">Create Event</button>
+</div>
+
+<app-event-create *ngIf="showCreateForm" (eventCreated)="handleEventCreated($event)"></app-event-create>
+
 <mat-tab-group>
   
   <mat-tab>
