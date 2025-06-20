@@ -4,16 +4,28 @@ import { Event, EventStatus } from '../../../core/models/event';
 @Component({
   selector: 'app-event-card',
   standalone: false,
-  
+
   templateUrl: './event-card.component.html',
   styleUrl: './event-card.component.scss'
 })
 export class EventCardComponent {
   @Input() event: Event | null = null; // Event data
-  @Output() editEvent: EventEmitter<Event> = new EventEmitter();
+  @Output() editEvent = new EventEmitter<Event>();
   eventStatus = EventStatus;
 
-  onEditClick(): void {
+   @Output() arrowPressed = new EventEmitter<Event>();
+
+  onArrowClick(event: MouseEvent) {
+    event.stopPropagation();
+    if(this.event){
+      console.log("from carddd")
+      console.log(this.event.id)
+      this.arrowPressed.emit(this.event);
+    }
+  }
+
+  onEditClick(event: MouseEvent): void {
+    event.stopPropagation();
     if (this.event) {
       this.editEvent.emit(this.event);
     }

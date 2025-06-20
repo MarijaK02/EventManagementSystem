@@ -5,12 +5,12 @@
 <app-event-create *ngIf="showCreateForm" (eventCreated)="handleEventCreated($event)"></app-event-create>
 
 <mat-tab-group>
-  
+
   <mat-tab>
     <ng-template mat-tab-label>
       <span class="material-symbols-outlined">
         calendar_view_day
-      </span> 
+      </span>
       <div [matBadge]="todayEvents.length" matBadgeOverlap="false" class="badge">
         <p>Today</p>
       </div>
@@ -28,9 +28,9 @@
         [dateDisabled]="true"
       ></app-side-filter-bar>
       <div class="event-container">
-        <app-event-card *ngFor="let event of todayEvents" [event]="event"></app-event-card>
+        <app-event-card *ngFor="let event of todayEvents" [event]="event" (arrowPressed)="openEventDetails($event)"></app-event-card>
       </div>
-    </div> 
+    </div>
   </mat-tab>
 
   <mat-tab>
@@ -53,9 +53,9 @@
         (filtersChanged)="applyFilters($event)"
       ></app-side-filter-bar>
       <div class="event-container">
-        <app-event-card *ngFor="let event of thisWeekEvents" [event]="event"></app-event-card>
+        <app-event-card *ngFor="let event of thisWeekEvents" [event]="event" (arrowPressed)="openEventDetails($event)"></app-event-card>
       </div>
-    </div> 
+    </div>
   </mat-tab>
 
   <mat-tab>
@@ -78,9 +78,13 @@
         (filtersChanged)="applyFilters($event)"
       ></app-side-filter-bar>
       <div class="event-container">
-        <app-event-card *ngFor="let event of thisMonthEvents" [event]="event"></app-event-card>
+        <app-event-card
+          *ngFor="let event of thisMonthEvents"
+          [event]="event"
+          (arrowPressed)="openEventDetails($event)"
+        ></app-event-card>
       </div>
-    </div> 
+    </div>
   </mat-tab>
 </mat-tab-group>
 

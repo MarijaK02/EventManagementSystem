@@ -22,9 +22,10 @@ import { EventEditComponent } from './event-edit/event-edit.component';
 import { EventCreateComponent } from './event-create/event-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { EventDetailsComponent } from './event-details/event-details.component';
 
 @NgModule({
-  declarations: [EventsViewComponent, EventCardComponent, EventEditComponent, EventCreateComponent],
+  declarations: [EventsViewComponent, EventCardComponent, EventEditComponent, EventCreateComponent, EventDetailsComponent],
   imports: [
     CommonModule,
     MatTabsModule, // Ensure MatTabsModule is imported

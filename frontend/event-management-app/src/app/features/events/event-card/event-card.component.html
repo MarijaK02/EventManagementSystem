@@ -1,7 +1,7 @@
 <div class="event-card" [class.unavailable]="event.status !== eventStatus.Available" *ngIf="!!event">
   <!-- Event Status Indicator -->
-  <div class="event-status" 
-       [class.available]="event.status === eventStatus.Available" 
+  <div class="event-status"
+       [class.available]="event.status === eventStatus.Available"
        [class.cancelled]="event.status === eventStatus.Cancelled"
        [class.booked]="event.status === eventStatus.Booked">
   </div>
@@ -25,14 +25,14 @@
           <mat-card-subtitle>{{ event.room }}</mat-card-subtitle>
         </mat-card-header>
         <mat-card-content>
-  
+
             <p class="event-time">
               <strong>Time:</strong> {{ event.startTime }} - {{ event.endTime }}
             </p>
             <p class="event-capacity">
               <strong>Capacity:</strong> {{ event.capacity }} <br />
-              <strong>Going:</strong> {{ event.going }} | 
-              <strong>Interested:</strong> {{ event.interested }} | 
+              <strong>Going:</strong> {{ event.going }} |
+              <strong>Interested:</strong> {{ event.interested }} |
               <strong>Declined:</strong> {{ event.declined }}
             </p>
             <p class="event-status-info">
@@ -42,15 +42,15 @@
                 <span *ngIf="event.status === eventStatus.Booked" class="booked">Booked</span>
                 <span *ngIf="event.status === eventStatus.Cancelled" class="cancelled">Cancelled</span>
               </ng-template>
-            </p>         
+            </p>
         </mat-card-content>
       </div>
-      <button mat-button (click)="onEditClick()">
+      <button mat-button (click)="onEditClick($event)">
         <span class="material-symbols-outlined">
           edit
         </span> Edit
       </button>
-      <button mat-button (click)="$event.stopPropagation()">
+      <button mat-button (click)="onArrowClick($event)">
         <span class="material-symbols-outlined">
           arrow_forward_ios
           </span>

@@ -1,8 +1,9 @@
 import { Event, EventStatus, EventType } from "../models/event";
 
 export class EventData {
-  static todayEvents : Event[] = [
+  static todayEvents: Event[] = [
     {
+      id: 1,
       name: 'Football Match',
       description: 'Inter-university football tournament semi-finals.',
       picture: 'https://www.fisu.net/app/uploads/2023/10/paulista_university1.jpg',
@@ -19,6 +20,7 @@ export class EventData {
       type: EventType.Sports,
     },
     {
+      id: 2,
       name: 'Freshers Party',
       description: 'Welcoming all the freshers with music, dance, and games.',
       picture: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTE7luLlquO6JGKRCKH8jvKJ3x8ic4gOS4jxg&s',
@@ -35,6 +37,7 @@ export class EventData {
       type: EventType.Party,
     },
     {
+      id: 3,
       name: 'Tech Conference 2024',
       description: 'Discussing the future of AI and machine learning.',
       picture: 'https://example.com/tech_conference.jpg',
@@ -51,6 +54,7 @@ export class EventData {
       type: EventType.Conference,
     },
     {
+      id: 4,
       name: 'Painting Workshop',
       description: 'Learn painting techniques from professionals.',
       picture: 'https://example.com/painting_workshop.jpg',
@@ -67,6 +71,7 @@ export class EventData {
       type: EventType.Workshop,
     },
     {
+      id: 5,
       name: 'Cultural Fest',
       description: 'Experience a blend of music, dance, and traditions.',
       picture: 'https://example.com/cultural_fest.jpg',
@@ -83,6 +88,7 @@ export class EventData {
       type: EventType.Cultural,
     },
     {
+      id: 6,
       name: 'Guest Lecture on Space Exploration',
       description: 'Hear from NASA scientists about the future of space exploration.',
       picture: 'https://example.com/guest_lecture.jpg',
@@ -102,6 +108,7 @@ export class EventData {
 
   static thisWeekEvents = [
     {
+      id: 7,
       name: 'Football Match',
       description: 'Inter-university football tournament semi-finals.',
       picture: 'https://example.com/football_match.jpg',
@@ -118,6 +125,7 @@ export class EventData {
       type: EventType.Sports,
     },
     {
+      id: 8,
       name: 'Tech Conference 2024',
       description: 'Discussing the future of AI and machine learning.',
       picture: 'https://example.com/tech_conference.jpg',
@@ -134,6 +142,7 @@ export class EventData {
       type: EventType.Conference,
     },
     {
+      id: 9,
       name: 'Freshers Party',
       description: 'Welcoming all the freshers with music, dance, and games.',
       picture: 'https://example.com/freshers_party.jpg',
@@ -150,6 +159,7 @@ export class EventData {
       type: EventType.Party,
     },
     {
+      id: 10,
       name: 'Cultural Fest',
       description: 'Experience a blend of music, dance, and traditions.',
       picture: 'https://example.com/cultural_fest.jpg',
@@ -169,6 +179,7 @@ export class EventData {
 
   static thisMonthEvents = [
     {
+      id: 11,
       name: 'Football Match',
       description: 'Inter-university football tournament semi-finals.',
       picture: 'https://example.com/football_match.jpg',
@@ -185,6 +196,7 @@ export class EventData {
       type: EventType.Sports,
     },
     {
+      id: 12,
       name: 'Tech Conference 2024',
       description: 'Discussing the future of AI and machine learning.',
       picture: 'https://example.com/tech_conference.jpg',
@@ -201,6 +213,7 @@ export class EventData {
       type: EventType.Conference,
     },
     {
+      id: 13,
       name: 'New Year Party',
       description: 'Celebrate the new year with music and dancing.',
       picture: 'https://example.com/new_year_party.jpg',
@@ -217,6 +230,7 @@ export class EventData {
       type: EventType.Party,
     },
     {
+      id: 14,
       name: 'Workshop on Machine Learning',
       description: 'Learn the basics of machine learning and AI technologies.',
       picture: 'https://example.com/machine_learning_workshop.jpg',

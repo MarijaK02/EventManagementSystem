@@ -4,14 +4,18 @@ import { RouterOutlet } from '@angular/router';
 import { AuthenticationModule } from './features/authentication/authentication.module';
 import { SharedModule } from './shared/shared.module';
 import { EventsModule } from './features/events/events.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [
     RouterOutlet,
+    BrowserModule,
     SharedModule,
     AuthenticationModule,
-    EventsModule
+    EventsModule,
+    HttpClientModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { EventData } from '../../../core/data_holder/events-data';
-import { EventStatus, EventType } from '../../../core/models/event';
+import { Event, EventStatus, EventType } from '../../../core/models/event';
 import { Router } from '@angular/router';
 
 @Component({
@@ -42,25 +42,25 @@ export class EventsViewComponent implements OnInit {
     this.selectedEventTypes = filters.selectedEventTypes;
     this.selectedDate = filters.selectedDate;
     this.selectedCapacity = filters.selectedCapacity;
-  
+
     this.filteredEvents = this.todayEvents.filter((event) => {
       // Matching the event status using EventStatus enum
       const matchesStatus =
         !this.selectedStatus || this.selectedStatus === event.status; // Directly comparing the status field
-  
+
       // Matching the selected date
       const matchesDate =
         !this.selectedDate || new Date(event.date).toDateString() === this.selectedDate.toDateString();
-  
+
       // Matching the selected capacity
       const matchesCapacity =
         !this.selectedCapacity || event.capacity >= this.selectedCapacity;
-  
+
       // Matching the selected event types
       const matchesEventTypes =
         !Object.values(this.selectedEventTypes).some((selected) => selected) || // No type selected
         this.selectedEventTypes[event.type]; // Matches selected type
-  
+
       return matchesStatus && matchesDate && matchesCapacity && matchesEventTypes;
     });
   }
@@ -104,5 +104,11 @@ export class EventsViewComponent implements OnInit {
       this.todayEvents[index] = updatedEvent;
     }
     this.showEditForm = false;
+  }
+
+  openEventDetails(event: Event) : void {
+    console.log("from viewss")
+    console.log(event.id)
+    this.router.navigate(['/events', event.id]);
   }
 }

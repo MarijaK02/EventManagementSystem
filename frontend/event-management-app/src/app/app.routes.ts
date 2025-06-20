@@ -4,6 +4,7 @@ import { EventsViewComponent } from './features/events/events-view/events-view.c
 import { LoginComponent } from './features/authentication/login/login.component';
 import { EventCreateComponent } from './features/events/event-create/event-create.component';
 import { EventEditComponent } from './features/events/event-edit/event-edit.component';
+import { EventDetailsComponent } from './features/events/event-details/event-details.component';
 
 export const routes: Routes = [
   {
@@ -20,15 +21,19 @@ export const routes: Routes = [
     component: LoginComponent
   },
   {
+    path: 'events/:id',
+    component: EventDetailsComponent
+  },
+  {
     path: 'events',
     component: EventsViewComponent
   },
-  { 
-    path: 'events/create-event', 
+  {
+    path: 'events/create-event',
     component: EventCreateComponent
   },
-  { 
-    path: 'edit-event/:id', 
-    component: EventEditComponent 
-  },
+  {
+    path: 'edit-event/:id',
+    component: EventEditComponent
+  }
 ];
