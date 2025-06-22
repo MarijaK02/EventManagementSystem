@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Output, Input, OnInit } from '@angular/core';
-import { EventStatus, EventType } from '../../core/models/event';
+import { EventStatus, EventType } from '../../../core/models/event';
 
 @Component({
   selector: 'app-side-filter-bar',

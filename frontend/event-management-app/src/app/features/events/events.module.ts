@@ -46,7 +46,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     MatExpansionModule,
     ReactiveFormsModule,
     RouterModule
-  ],
+],
   providers: []
 })
 export class EventsModule { }

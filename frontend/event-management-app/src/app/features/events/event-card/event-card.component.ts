@@ -30,4 +30,10 @@ export class EventCardComponent {
       this.editEvent.emit(this.event);
     }
   }
+
+    isSameDay(start: string, end: string): boolean {
+      const startDate = new Date(start);
+      const endDate = new Date(end);
+      return startDate.toDateString() === endDate.toDateString();
+  }
 }

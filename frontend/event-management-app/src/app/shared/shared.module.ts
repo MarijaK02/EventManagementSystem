@@ -21,14 +21,16 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import {MatTimepickerModule} from '@angular/material/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { SideFilterBarComponent } from './side-filter-bar/side-filter-bar.component';
+import { SideFilterBarComponent } from './components/side-filter-bar/side-filter-bar.component';
+import { MapComponent } from './components/map/map.component';
 
 
 @NgModule({
   declarations: [
     SharedPasswordInputComponent,
     NavabarComponent,
-    SideFilterBarComponent
+    SideFilterBarComponent,
+    MapComponent
   ],
   imports: [
     RouterModule,
@@ -55,7 +57,8 @@ import { SideFilterBarComponent } from './side-filter-bar/side-filter-bar.compon
   exports: [
     SharedPasswordInputComponent,
     NavabarComponent,
-    SideFilterBarComponent
+    SideFilterBarComponent,
+    MapComponent
   ]
 })
 export class SharedModule { }

@@ -21,13 +21,18 @@
 
   <!-- Key Info Grid -->
   <section class="key-info">
-    <div class="info-box">
-      <h3>Date</h3>
-      <p>{{ event.date }}</p>
-    </div>
-    <div class="info-box">
-      <h3>Time</h3>
-      <p>{{ event.startTime }} - {{ event.endTime }}</p>
+    <div class="info-box" *ngIf="event">
+      <h3>Date & Time</h3>
+
+      <ng-container *ngIf="isSameDay(event.start, event.end); else multiDayInfo">
+        <p>{{ event.start | date: 'MMM d, yyyy' }}</p>
+        <p>{{ event.start | date: 'h:mm a' }} - {{ event.end | date: 'h:mm a' }}</p>
+      </ng-container>
+
+      <ng-template #multiDayInfo>
+        <p>Start: {{ event.start | date: 'MMM d, yyyy, h:mm a' }}</p>
+        <p>End: {{ event.end | date: 'MMM d, yyyy, h:mm a' }}</p>
+      </ng-template>
     </div>
     <div class="info-box">
       <h3>Room</h3>

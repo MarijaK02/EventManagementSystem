@@ -54,7 +54,7 @@
       }
     }
   }
-  
+
 
   .event-date {
     margin-right: 15px;
@@ -74,6 +74,11 @@
       color: gray;
     }
   }
+
+ .event-date-wrapper{
+    display: flex;
+    flex-direction: row;
+ }
 
   .event-content {
     flex: 1;

@@ -11,7 +11,6 @@ import { HttpClientModule } from '@angular/common/http';
   standalone: true,
   imports: [
     RouterOutlet,
-    BrowserModule,
     SharedModule,
     AuthenticationModule,
     EventsModule,

@@ -33,17 +33,23 @@ export class EventDetailsComponent implements OnInit {
   }
 
   respond(response: 'going' | 'interested' | 'declined') {
-  this.userResponse = response;
-  // Optionally send to backend
-}
-
-addComment() {
-  if (this.newComment.trim()) {
-    this.comments.push({
-      user: 'You',
-      text: this.newComment.trim()
-    });
-    this.newComment = '';
+    this.userResponse = response;
+    // Optionally send to backend
   }
-}
+
+  addComment() {
+    if (this.newComment.trim()) {
+      this.comments.push({
+        user: 'You',
+        text: this.newComment.trim()
+      });
+      this.newComment = '';
+    }
+  }
+
+  isSameDay(start: string, end: string): boolean {
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+    return startDate.toDateString() === endDate.toDateString();
+  }
 }

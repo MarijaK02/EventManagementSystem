@@ -48,9 +48,9 @@ export class EventsViewComponent implements OnInit {
       const matchesStatus =
         !this.selectedStatus || this.selectedStatus === event.status; // Directly comparing the status field
 
-      // Matching the selected date
-      const matchesDate =
-        !this.selectedDate || new Date(event.date).toDateString() === this.selectedDate.toDateString();
+      // // Matching the selected date
+      // const matchesDate =
+      //   !this.selectedDate || new Date(event.date).toDateString() === this.selectedDate.toDateString();
 
       // Matching the selected capacity
       const matchesCapacity =
@@ -61,7 +61,7 @@ export class EventsViewComponent implements OnInit {
         !Object.values(this.selectedEventTypes).some((selected) => selected) || // No type selected
         this.selectedEventTypes[event.type]; // Matches selected type
 
-      return matchesStatus && matchesDate && matchesCapacity && matchesEventTypes;
+      return matchesStatus && matchesCapacity && matchesEventTypes;
     });
   }
 
