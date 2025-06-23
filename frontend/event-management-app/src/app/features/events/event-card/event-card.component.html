@@ -39,6 +39,9 @@
     <div class="event-type">
       {{ event.type }}
     </div>
+    <div>
+      {{event.creator.email}}
+    </div>
   </div>
 
   <div class="event-image">
@@ -70,12 +73,12 @@
             </p>
         </mat-card-content>
       </div>
-      <button mat-button (click)="onEditClick($event)">
+      <button mat-button (click)="onEditClick($event)" *ngIf="this.canEditDelete">
         <span class="material-symbols-outlined">
           edit
         </span> Edit
       </button>
-      <button mat-button (click)="onDeleteClick($event)">
+      <button mat-button (click)="onDeleteClick($event)" *ngIf="this.canEditDelete">
         <span class="material-symbols-outlined">
           delete
         </span> Delete

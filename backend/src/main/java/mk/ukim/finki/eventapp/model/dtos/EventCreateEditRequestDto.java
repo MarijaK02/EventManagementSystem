@@ -31,5 +31,4 @@ public class EventCreateEditRequestDto {
 
 
     private String organizer;
-    private Long creatorId;
 }

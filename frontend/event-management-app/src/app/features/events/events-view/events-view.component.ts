@@ -32,12 +32,15 @@ export class EventsViewComponent implements OnInit {
 
   errorMessage: string | null = null;
 
+  loggedInUserEmail: string = "";
+
   constructor(private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
     this.eventTypes.forEach(type => {
       this.selectedEventTypes[type] = false;
     });
+    this.loggedInUserEmail = localStorage.getItem('email') ?? "";
     this.loadEvents();
   }
 

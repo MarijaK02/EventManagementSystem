@@ -97,7 +97,9 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/events'])
         },
         error: (error) => {
-          this.errorMessage = error.error || 'Invalid credentials';
+          console.error(error)
+
+          this.errorMessage = 'Invalid credentials';
         },
         complete: () => {
           console.log("Login successfull!")

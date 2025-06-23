@@ -89,6 +89,7 @@ public class EventServiceImpl implements EventService {
         Location location = locationRepository.findById(dto.getLocationId()).orElseThrow(
                 () -> new IllegalArgumentException("Location not found with ID: " + dto.getLocationId())
         );
+        User user = authService.getCurrentlyLoggedInUser();
 
         Event event = Event.builder()
                 .name(dto.getName())
@@ -102,8 +103,7 @@ public class EventServiceImpl implements EventService {
                 .price(dto.getPrice())
                 .capacity(dto.getCapacity())
                 .imageUrl(imageUrl)
-//                .creator(userService.findById(dto.getCreatorId()))
-                .creator(userService.findByUsername("student1"))
+                .creator(userService.findById(user.getId()))
                 .organizer(dto.getOrganizer())
                 .build();
 

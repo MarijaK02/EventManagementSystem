@@ -10,6 +10,7 @@ import { Event, EventStatus } from '../../../core/models/event';
 })
 export class EventCardComponent {
   @Input() event: Event | null = null; // Event data
+  @Input() canEditDelete: boolean = false;
   @Output() editEvent = new EventEmitter<Event>();
   @Output() arrowPressed = new EventEmitter<Event>();
   @Output() deleteEvent = new EventEmitter<Event>();

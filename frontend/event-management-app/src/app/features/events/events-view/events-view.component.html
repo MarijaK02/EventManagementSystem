@@ -33,6 +33,7 @@
       <div class="event-container">
         <app-event-card *ngFor="let event of filteredPastEvents"
           [event]="event" (arrowPressed)="openEventDetails($event)"
+          [canEditDelete]="event.creator.email === loggedInUserEmail"
           (deleteEvent)="handleEventDelete($event)"
           (editEvent)="openEditEvent($event)"
         ></app-event-card>
@@ -54,6 +55,7 @@
       <div class="event-container">
         <app-event-card *ngFor="let event of filteredTodayEvents"
           [event]="event"
+          [canEditDelete]="event.creator.email === loggedInUserEmail"
           (arrowPressed)="openEventDetails($event)"
           (deleteEvent)="handleEventDelete($event)"
           (editEvent)="openEditEvent($event)"
@@ -77,6 +79,7 @@
         <app-event-card
           *ngFor="let event of filteredUpcomingEvents"
           [event]="event"
+          [canEditDelete]="event.creator.email === loggedInUserEmail"
           (arrowPressed)="openEventDetails($event)"
           (deleteEvent)="handleEventDelete($event)"
           (editEvent)="openEditEvent($event)"
