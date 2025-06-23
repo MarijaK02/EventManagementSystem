@@ -4,6 +4,7 @@ import { Inject } from '@angular/core';
 import { EventService } from '../../../core/services/events/event.service';
 import { UserService } from '../../../core/services/users/user.service';
 import { User, UserRole } from '../../../core/models/user';
+import { Event } from '../../../core/models/event';
 
 @Component({
   selector: 'app-event-registration-dialog',
@@ -15,12 +16,13 @@ import { User, UserRole } from '../../../core/models/user';
 export class EventRegistrationDialogComponent {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { eventId: number },
+    @Inject(MAT_DIALOG_DATA) public data: { event: Event },
     private userService: UserService,
     private eventService: EventService,
     public dialogRef: MatDialogRef<EventRegistrationDialogComponent>
   ) {}
 
+  maxUserToChoose: number = 0;
   selectedUsers: User[] = [];
   allUsers: User[] = [];
   searchText = '';
@@ -29,6 +31,7 @@ export class EventRegistrationDialogComponent {
   ngOnInit() {
     this.userService.getAllUsers().subscribe(users => {
       this.allUsers = users.filter(u => u.role === UserRole.STUDENT);
+      this.maxUserToChoose = this.data.event.capacity - this.data.event.numParticipants - 1;
     });
   }
 
@@ -47,10 +50,14 @@ export class EventRegistrationDialogComponent {
 
   register() {
     const userIds = this.selectedUsers.map(u => u.id);
-    console.log(this.data.eventId, userIds)
-    this.eventService.register(this.data.eventId, userIds).subscribe({
+    console.log(this.data.event.id, userIds)
+    this.eventService.register(this.data.event.id, userIds).subscribe({
       next: () => this.dialogRef.close(userIds),
       error: err => console.error('Registration failed', err),
     });
+  }
+
+  isDisabled(user: User): boolean {
+    return !this.selectedUsers.includes(user) && this.selectedUsers.length == this.maxUserToChoose;
   }
 }

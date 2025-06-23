@@ -41,6 +41,7 @@ public class EventRequestDTO {
     private int interested;
     private int declined;
     private ParticipationStatus userParticipationStatus;
+    private int numParticipants;
 
     private double averageRating;
 

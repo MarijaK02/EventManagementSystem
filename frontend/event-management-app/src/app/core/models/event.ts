@@ -19,6 +19,7 @@ export enum EventStatus {
   AVAILABLE = 'AVAILABLE',
   FINISHED = 'FINISHED',
   CANCELLED = 'CANCELLED',
+  BOOKED =  'BOOKED'
 }
 
 export enum ParticipationStatus {
@@ -50,6 +51,7 @@ export interface Event {
   organizer: string,
   creator: User,
   userParticipationStatus: ParticipationStatus
+  numParticipants: number;
   averageRating: number;
   comments: Comment[];
 }

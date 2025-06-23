@@ -351,6 +351,7 @@ public class EventServiceImpl implements EventService {
         dto.setCreator(event.getCreator());
         dto.setOrganizer(event.getOrganizer());
         dto.setUserParticipationStatus(userParticipationStatus);
+        dto.setNumParticipants((int) userEventParticipationRepository.findAllByEvent(event).stream().filter(ue -> ue.getStatus().equals(ParticipationStatus.GOING)).count());
 
         double averageRating = 0.0;
         if (!event.getRates().isEmpty()) {

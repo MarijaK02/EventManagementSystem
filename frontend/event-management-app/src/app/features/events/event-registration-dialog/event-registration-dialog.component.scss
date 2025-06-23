@@ -96,3 +96,15 @@ button[mat-button] {
 button[mat-button]:hover {
   background-color: #ecf0f1;
 }
+
+.limit-message {
+  font-weight: bold;
+  color: #2e7d32; // deep green
+  margin-bottom: 0.5rem;
+  margin-left: 1.5rem;
+}
+
+.user-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}

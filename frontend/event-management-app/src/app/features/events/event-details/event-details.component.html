@@ -8,7 +8,8 @@
       <p>{{ event.type }}</p>
       <div class="chips">
         <span class="chip type">{{ event.type }}</span>
-        <span class="chip" [ngClass]="event.status.toLowerCase()">{{ event.status }}</span>
+        <span class="chip" [ngClass]="event.status.toLowerCase()" *ngIf="event.numParticipants < event.capacity">{{ event.status }}</span>
+        <span class="chip booked" [ngClass]="event.status.toLowerCase()" *ngIf="event.numParticipants >= event.capacity">{{ eventStatuses.BOOKED }}</span>
         <span class="chip">⭐  {{ event.averageRating }}</span>
       </div>
     </div>
@@ -81,13 +82,13 @@
 <section class="action-buttons">
   <h2>Your Response</h2>
   <div class="button-group">
-    <button (click)="respond(participationStatuse.GOING)" [class.active]="userResponse === participationStatuse.GOING" class="btn going">
+    <button (click)="respond(participationStatuse.GOING)" [class.active]="userResponse === participationStatuse.GOING" class="btn going" [disabled]="event.capacity == event.numParticipants">
       ✔️ Going? Register for the event!
     </button>
-    <button (click)="respond(participationStatuse.INTERESTED)" [class.active]="userResponse === participationStatuse.INTERESTED" class="btn interested">
+    <button (click)="respond(participationStatuse.INTERESTED)" [class.active]="userResponse === participationStatuse.INTERESTED" class="btn interested" [disabled]="event.capacity == event.numParticipants">
       ⭐ Interested
     </button>
-    <button (click)="respond(participationStatuse.DECLINED)" [class.active]="userResponse === participationStatuse.DECLINED" class="btn declined">
+    <button (click)="respond(participationStatuse.DECLINED)" [class.active]="userResponse === participationStatuse.DECLINED" class="btn declined" [disabled]="event.capacity == event.numParticipants">
       ❌ Decline
     </button>
   </div>

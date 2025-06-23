@@ -1,6 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Event, ParticipationStatus } from '../../../core/models/event';
+import { Event, EventStatus, ParticipationStatus } from '../../../core/models/event';
 import { EventService } from '../../../core/services/events/event.service';
 import { EventRegistrationDialogComponent } from '../event-registration-dialog/event-registration-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -17,6 +17,7 @@ export class EventDetailsComponent implements OnInit {
   userResponse: ParticipationStatus | null = null;
   newComment: string = '';
   comments: { user: string, text: string }[] = [];
+  eventStatuses = EventStatus;
 
   selectedRating: number = 0;
   hoveredRating: number = 0;
@@ -51,7 +52,7 @@ export class EventDetailsComponent implements OnInit {
         const dialogRef = this.dialog.open(EventRegistrationDialogComponent, {
           width: '600px',
           data: {
-            eventId: this.event!.id,
+            event: this.event,
           }
         });
 
