@@ -1,25 +1,27 @@
+@use '../../../../my-theme.scss' as *;
+
 .event-details-wrapper {
   animation: fadeIn 0.6s ease;
   font-family: 'Segoe UI', sans-serif;
   color: #2b160e;
 
-    .stars {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 1.5rem;
-  color: #4d251c;
-
-  .filled {
-    color: #fbc02d;
-  }
-
-  .average {
-    margin-left: 0.5rem;
-    font-size: 1rem;
+  .stars {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 1.5rem;
     color: #4d251c;
+
+    .filled {
+      color: #fbc02d;
+    }
+
+    .average {
+      margin-left: 0.5rem;
+      font-size: 1rem;
+      color: #4d251c;
+    }
   }
-}
 
   .hero {
     position: relative;
@@ -66,23 +68,23 @@
           text-transform: uppercase;
 
           &.available {
-            background-color: #ede8d0;
-            color: #370e00;
+            background-color: $accent-green-light;
+            color: $primary-green;
           }
 
           &.booked {
-            background-color: #dea193;
-            color: #4d251c;
+            background-color: lighten($accent-green, 30%);
+            color: darken($accent-green, 40%);
           }
 
           &.cancelled {
-            background-color: #ffcfc9;
-            color: #690005;
+            background-color: $warn-color-light;
+            color: $warn-color;
           }
 
           &.type {
-            background-color: #ffb59a;
-            color: #5a1b00;
+            background-color: lighten($accent-green, 20%);
+            color: $primary-green;
           }
         }
       }
@@ -94,7 +96,7 @@
 
     h2 {
       font-size: 1.75rem;
-      color: #802a00;
+      color: $primary-green;
     }
 
     p {
@@ -111,14 +113,14 @@
     margin-bottom: 2rem;
 
     .info-box {
-      background: linear-gradient(to right, #ffede7, #fff8f6);
+      background: linear-gradient(to right, $warn-color-light, $accent-green-light);
       border-radius: 12px;
       padding: 1rem;
-      box-shadow: 0 2px 8px rgba(255, 92, 0, 0.1);
+      box-shadow: 0 2px 8px rgba($accent-green, 0.1);
       text-align: center;
 
       h3 {
-        color: #6d2300;
+        color: $primary-green;
         margin-bottom: 0.4rem;
       }
 
@@ -131,67 +133,66 @@
   }
 
   .engagement {
-  margin-bottom: 2rem;
+    margin-bottom: 2rem;
 
-  h2 {
-    font-size: 1.4rem;
-    margin-bottom: 0.8rem;
-    color: #5a1b00;
-  }
+    h2 {
+      font-size: 1.4rem;
+      margin-bottom: 0.8rem;
+      color: $primary-green;
+    }
 
-  .engagement-stats {
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-start;
-
-    .stat {
+    .engagement-stats {
       display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      background: #fff8f6;
-      padding: 0.6rem 1rem;
-      border-radius: 10px;
-      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
-      min-width: 120px;
+      gap: 1rem;
+      justify-content: flex-start;
 
-      .icon {
-        font-size: 1.5rem;
+      .stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: $accent-green-light;
+        padding: 0.6rem 1rem;
+        border-radius: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+        min-width: 120px;
 
-        &.going {
-          color: #fc5b00;
+        .icon {
+          font-size: 1.5rem;
+
+          &.going {
+            color: $accent-green;
+          }
+
+          &.interested {
+            color: lighten($accent-green, 20%);
+          }
+
+          &.declined {
+            color: $warn-color;
+          }
         }
 
-        &.interested {
-          color: #dea193;
+        .label {
+          font-size: 0.9rem;
+          color: $primary-green;
+          margin: 0;
         }
 
-        &.declined {
-          color: #ba1a1a;
+        .value {
+          font-size: 1.1rem;
+          font-weight: bold;
+          color: #370e00;
+          margin: 0;
         }
-      }
-
-      .label {
-        font-size: 0.9rem;
-        color: #6d2300;
-        margin: 0;
-      }
-
-      .value {
-        font-size: 1.1rem;
-        font-weight: bold;
-        color: #370e00;
-        margin: 0;
       }
     }
   }
-}
-
 
   .not-found {
     font-size: 1.5rem;
     text-align: center;
     margin-top: 5rem;
-    color: #a80710;
+    color: $warn-color;
   }
 }
 
@@ -206,13 +207,12 @@
   }
 }
 
-/* Action Buttons */
 .action-buttons {
   margin-bottom: 2rem;
 
   h2 {
     font-size: 1.3rem;
-    color: #5a1b00;
+    color: $primary-green;
     margin-bottom: 0.8rem;
   }
 
@@ -227,40 +227,39 @@
       font-weight: 600;
       cursor: pointer;
       transition: all 0.3s ease;
-      background-color: #ede8d0;
-      color: #5a1b00;
+      background-color: $accent-green-light;
+      color: $primary-green;
 
       &.going.active {
-        background-color: #fc5b00;
+        background-color: $accent-green;
         color: white;
       }
 
       &.interested.active {
-        background-color: #dea193;
+        background-color: lighten($accent-green, 15%);
         color: white;
       }
 
       &.declined.active {
-        background-color: #ba1a1a;
+        background-color: $warn-color;
         color: white;
       }
 
       &:hover {
         transform: translateY(-1px);
-        box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       }
     }
   }
 }
 
-/* Comment Section */
 .comments {
   margin-top: 2rem;
 
   h2 {
     font-size: 1.3rem;
     margin-bottom: 0.8rem;
-    color: #5a1b00;
+    color: $primary-green;
   }
 
   form {
@@ -280,7 +279,7 @@
 
     button {
       align-self: flex-end;
-      background-color: #fc5b00;
+      background-color: $accent-green;
       color: white;
       padding: 0.5rem 1.2rem;
       border: none;
@@ -289,7 +288,7 @@
       font-weight: 600;
 
       &:hover {
-        background-color: #d14a00;
+        background-color: darken($accent-green, 10%);
       }
     }
   }
@@ -303,8 +302,8 @@
     gap: 1rem;
 
     .comment {
-      background: #fff8f6;
-      border-left: 4px solid #fc5b00;
+      background: $accent-green-light;
+      border-left: 4px solid $accent-green;
       padding: 0.8rem;
       border-radius: 6px;
 
@@ -320,4 +319,3 @@
     }
   }
 }
-
