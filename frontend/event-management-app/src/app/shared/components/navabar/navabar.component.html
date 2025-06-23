@@ -1,22 +1,38 @@
-<mat-toolbar class="navbar" color="primary">
-  <div class="nav">
-    <div class="left">
-      <button class="logo-image" mat-button (click)="openCalendar()">
-        <img src="https://e7.pngegg.com/pngimages/594/45/png-clipart-square-red-and-white-illustration-calendar-date-computer-icons-time-calendar-icon-miscellaneous-calendar-thumbnail.png"/>
-      </button>
+<mat-toolbar class="navbar">
+  <div class="nav-left">
+    <!-- Logo/Icon -->
+    <button mat-icon-button class="logo-btn" aria-label="Home" routerLink="/events">
+      <img src="https://icon2.cleanpng.com/20180523/puq/kisspng-computer-icons-organization-logo-coventry-high-sch-sensory-lab-5b0572940a3a27.6884089015270836680419.jpg">
+    </button>
 
-      <button mat-button routerLink="/events" class="events" routerLinkActive="active-link">
-        <span class="material-symbols-outlined">event_upcoming</span>
-        Events
-      </button>
-      <button mat-button class="contact" routerLink="/contact" routerLinkActive="active-link">
-        <span class="material-symbols-outlined">contact_support</span>
-        Contact
-      </button>
-    </div>
+    <button mat-icon-button class="logo-btn" aria-label="Home" routerLink="/events-calendar">
+      <mat-icon>calendar_today</mat-icon>Calendar
+    </button>
 
-    <div class="right">
-       <button mat-button (click)="logout()">Logout</button>
-    </div>
+    <!-- Navigation Buttons -->
+    <button mat-button routerLink="/events" routerLinkActive="active-link">
+      <mat-icon>event_note</mat-icon>
+      <span>Events</span>
+    </button>
+
+    <button mat-button routerLink="/contact" routerLinkActive="active-link">
+      <mat-icon>support_agent</mat-icon>
+      <span>Contact</span>
+    </button>
+
+    <button mat-button routerLink="/about" routerLinkActive="active-link">
+      <mat-icon>info</mat-icon>
+      <span>About</span>
+    </button>
+  </div>
+
+  <div class="spacer"></div>
+
+  <!-- Right Side -->
+  <div class="nav-right">
+    <button mat-raised-button color="accent" (click)="logout()">
+      <mat-icon>logout</mat-icon>
+      Logout
+    </button>
   </div>
 </mat-toolbar>

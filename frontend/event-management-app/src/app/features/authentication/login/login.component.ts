@@ -94,7 +94,7 @@ export class LoginComponent implements OnInit {
           localStorage.setItem('email', response.email);
           localStorage.setItem('role', response.role);
           this.authService.setAuthenticated(true);
-          this.router.navigate(['/events'])
+          this.router.navigate(['/home'])
         },
         error: (error) => {
           console.error(error)

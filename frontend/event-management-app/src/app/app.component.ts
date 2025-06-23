@@ -5,6 +5,7 @@ import { SharedModule } from './shared/shared.module';
 import { EventsModule } from './features/events/events.module';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { AuthInterceptor } from './auth.interceptor';
+import { HomeModule } from './features/home/home/home.module';
 
 @Component({
   selector: 'app-root',
@@ -14,7 +15,8 @@ import { AuthInterceptor } from './auth.interceptor';
     SharedModule,
     AuthenticationModule,
     EventsModule,
-    HttpClientModule
+    HttpClientModule,
+    HomeModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

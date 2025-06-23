@@ -64,11 +64,11 @@ public class Event {
     private List<UserEventParticipation> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    @JsonManagedReference // Forward reference on comments side
+    @JsonManagedReference
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    @JsonManagedReference // Forward reference on rates side
+    @JsonManagedReference
     private List<Rate> rates = new ArrayList<>();
 }
 

@@ -1,67 +1,109 @@
-@use '../../../../my-theme.scss' as my-theme;
+// Color Palette
+$primary-green: #2e7d32;
+$hover-green: #43a047;
+$active-green: #1b5e20;
+$accent-green: #66bb6a;
+$light-green: #c8e6c9;
+$glow: rgba(129, 199, 132, 0.4);
 
-mat-toolbar{
-  background-color: my-theme.$nav-color;
-  height: fit-content;
-  padding-top: 0.4rem;
-  padding-bottom: 0.2rem;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
-}
-
-.nav{
-  display: flex;
-  justify-content: space-between;
-  width: 100%;
-}
-
-h5{
-  font-weight: bolder;
-}
-
-.left{
-  display: flex;
-  width: 70%;
-  align-items: center;
-}
-
-.home, .events, .contact{
-  ::ng-deep .mdc-button__label{
-    display:flex;
-  }
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-button:hover{
-  background-color: my-theme.$nav-button-hover;
-}
-
-.right{
+mat-toolbar.navbar {
+  background-color: $primary-green;
+  color: white;
+  padding: 0.8rem 2rem;
   display: flex;
   align-items: center;
-
-  .profile-button{
-    height: 2rem;
-  }
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+  border-bottom: 2px solid $accent-green;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.logo-image{
-  height: auto;
-  margin-top: 0.3rem;
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 1.2rem;
 
-  img{
-    height: 3rem;
+  button {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: white;
+    font-weight: 500;
+    font-size: 1rem;
+    border-radius: 12px;
+    padding: 0.5rem 1rem;
+    transition: all 0.3s ease;
+    text-transform: none;
+
+    mat-icon {
+      font-size: 20px;
+    }
+
+    &:hover {
+      background-color: $hover-green;
+      box-shadow: 0 4px 10px $glow;
+    }
+
+    &.active-link {
+      background-color: $active-green;
+      box-shadow: 0 0 12px $glow;
+      font-weight: bold;
+    }
   }
 }
 
-.active-link {
-  background-color: my-theme.$nav-link-active-color;  /* Set to your desired color */
-  border-radius: 4px;  /* Optional: adds rounded corners */
+.logo-btn {
+  mat-icon {
+    font-size: 50px;
+    color: $light-green;
+  }
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.12);
+  }
 }
 
+.spacer {
+  flex: 1 1 auto;
+}
 
+.nav-right {
+  button {
+    background-color: $accent-green;
+    color: white;
+    font-weight: 600;
+    border-radius: 20px;
+    text-transform: none;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 
+    &:hover {
+      background-color: lighten($accent-green, 10%);
+      box-shadow: 0 6px 12px rgba(255, 255, 255, 0.3);
+    }
 
+    mat-icon {
+      font-size: 20px;
+    }
+  }
+}
 
+// Responsive (Optional)
+@media (max-width: 768px) {
+  .nav-left {
+    gap: 0.5rem;
+
+    button span {
+      display: none; // Show only icons on smaller screens
+    }
+  }
+
+  .nav-right {
+    button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+  }
+}

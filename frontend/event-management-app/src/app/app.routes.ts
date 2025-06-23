@@ -7,12 +7,17 @@ import { EventEditComponent } from './features/events/event-edit/event-edit.comp
 import { EventDetailsComponent } from './features/events/event-details/event-details.component';
 import { EventsCalendarComponent } from './features/events/events-calendar/events-calendar.component';
 import { AuthGuard } from './auth.guard';
+import { HomeComponent } from './features/home/home/home.component';
 
 export const routes: Routes = [
   {
     path: '',
     redirectTo: '/login',  // Default redirect to login page
     pathMatch: 'full'
+  },
+  {
+    path: 'home',
+    component: HomeComponent
   },
   {
     path: 'register',
