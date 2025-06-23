@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse } from '@angular/common/http';
 import { Event as AppEvent, EventStatus, EventType } from '../../../core/models/event';
 import { EventService } from '../../../core/services/events/event.service';
 import { Router } from '@angular/router';
@@ -37,7 +37,7 @@ export class EventCreateComponent implements OnInit {
     this.createEventForm = this.fb.group({
       name: ['', Validators.required],
       description: [''],
-      location: [{ value: '', disabled: true }, Validators.required],
+      locationId: [{ value: null, disabled: true }, Validators.required],
       price: [0, [Validators.required, Validators.min(0)]],
       capacity: [0, [Validators.required, Validators.min(1)]],
       type: ['', Validators.required],
@@ -48,6 +48,12 @@ export class EventCreateComponent implements OnInit {
       endDate: [null, Validators.required],
       endTime: [null, Validators.required],
     });
+
+    // Enable/disable locationId control based on date/time validity
+    this.createEventForm.get('startDate')?.valueChanges.subscribe(() => this.toggleLocationControl());
+    this.createEventForm.get('startTime')?.valueChanges.subscribe(() => this.toggleLocationControl());
+    this.createEventForm.get('endDate')?.valueChanges.subscribe(() => this.toggleLocationControl());
+    this.createEventForm.get('endTime')?.valueChanges.subscribe(() => this.toggleLocationControl());
 
     // Load locations
     this.locationService.getLocations().subscribe((locations) => {
@@ -62,7 +68,7 @@ export class EventCreateComponent implements OnInit {
     });
 
     // Update capacity validators when location changes
-    this.createEventForm.get('location')?.valueChanges.subscribe((selectedLocationId) => {
+    this.createEventForm.get('locationId')?.valueChanges.subscribe((selectedLocationId) => {
       const location = this.locations.find((loc) => loc.id === selectedLocationId);
       if (location) {
         this.createEventForm.get('capacity')?.setValidators([
@@ -80,6 +86,20 @@ export class EventCreateComponent implements OnInit {
     this.createEventForm.valueChanges.subscribe(() => {
       this.updateLocationAvailability();
     });
+  }
+
+  toggleLocationControl(): void {
+    const startDate = this.createEventForm.get('startDate')?.value;
+    const startTime = this.createEventForm.get('startTime')?.value;
+    const endDate = this.createEventForm.get('endDate')?.value;
+    const endTime = this.createEventForm.get('endTime')?.value;
+
+    if (startDate && startTime && endDate && endTime) {
+      this.createEventForm.get('locationId')?.enable();
+    } else {
+      this.createEventForm.get('locationId')?.disable();
+      this.createEventForm.get('locationId')?.setValue(null);
+    }
   }
 
   onImageSelected(event: Event): void {
@@ -131,30 +151,37 @@ export class EventCreateComponent implements OnInit {
     });
 
     // If the currently selected location is disabled, reset it
-    const selectedLocationId = this.createEventForm.get('location')?.value;
+    const selectedLocationId = this.createEventForm.get('locationId')?.value;
     const selectedLoc = this.locations.find((loc) => loc.id === selectedLocationId);
     if (selectedLoc?.disabled) {
-      this.createEventForm.get('location')?.setValue(null);
+      this.createEventForm.get('locationId')?.setValue(null);
     }
   }
 
   createEvent(): void {
-    if (this.createEventForm.invalid) return;
+    if (this.createEventForm.invalid) {
+      this.errorMessage = 'Please fill in all required fields correctly.';
+      return;
+    }
 
     const formValue = this.createEventForm.value;
-    const formData = new FormData();
 
+    if (!formValue.locationId) {
+      this.errorMessage = 'Please select a location.';
+      return;
+    }
+
+    const formData = new FormData();
     formData.append('name', formValue.name);
     formData.append('description', formValue.description || '');
     formData.append('organizer', formValue.organizer || '');
     formData.append('startTime', this.combineDateTime(formValue.startDate, formValue.startTime)?.toISOString() || '');
     formData.append('endTime', this.combineDateTime(formValue.endDate, formValue.endTime)?.toISOString() || '');
-    formData.append('location', formValue.location);
     formData.append('price', formValue.price.toString());
     formData.append('capacity', formValue.capacity.toString());
     formData.append('type', formValue.type);
     formData.append('status', formValue.status);
-    formData.append('locationId', formValue.location);
+    formData.append('locationId', formValue.locationId);
 
     if (this.selectedImageFile) {
       formData.append('image', this.selectedImageFile, this.selectedImageFile.name);

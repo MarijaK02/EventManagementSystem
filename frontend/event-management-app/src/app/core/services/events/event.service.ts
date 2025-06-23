@@ -14,6 +14,9 @@ export class EventService {
 
   authHeaders(): HttpHeaders{
     const token = localStorage.getItem('token');
+        if (!token) {
+        console.warn('No auth token found!');
+      }
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });

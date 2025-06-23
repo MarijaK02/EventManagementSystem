@@ -64,15 +64,15 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Location</mat-label>
-      <mat-select formControlName="location"
-        [disabled]="
-      !createEventForm.get('startDate')?.value || createEventForm.get('startDate')?.value === '' ||
-      !createEventForm.get('startTime')?.value || createEventForm.get('startTime')?.value === '' ||
-      !createEventForm.get('endDate')?.value || createEventForm.get('endDate')?.value === '' ||
-      !createEventForm.get('endTime')?.value || createEventForm.get('endTime')?.value === ''
-    "
+      <mat-select
+        formControlName="locationId"
+        [disabled]="!!createEventForm.get('locationId')?.disabled"
       >
-        <mat-option *ngFor="let loc of locations" [value]="loc.id" [disabled]="loc.disabled">
+        <mat-option
+          *ngFor="let loc of locations"
+          [value]="loc.id"
+          [disabled]="loc.disabled"
+        >
           {{ loc.name }}
         </mat-option>
       </mat-select>
@@ -113,7 +113,7 @@
     </mat-form-field>
 
     <div class="form-actions">
-      <button mat-raised-button color="primary" type="submit" [disabled]="!createEventForm.valid">Create</button>
+      <button mat-raised-button color="primary" type="submit" [disabled]="createEventForm.invalid">Create</button>
       <button mat-button type="button" (click)="createEventForm.reset()">Reset</button>
     </div>
 

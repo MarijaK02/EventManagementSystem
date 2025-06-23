@@ -20,7 +20,7 @@ import java.util.List;
 @AllArgsConstructor
 @Builder
 @Table(name = "events")
-@ToString(exclude = {"participants", "comments", "rates"})
+@ToString(exclude = {"participants", "comments", "rates", "location"})
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
