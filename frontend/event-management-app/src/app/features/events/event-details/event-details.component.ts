@@ -36,6 +36,7 @@ export class EventDetailsComponent implements OnInit {
         averageRating: Number(eventData.averageRating),
       };
       this.userResponse = eventData.userParticipationStatus;
+      console.log(this.event)
     },
     error: (error) => {
       console.error('Failed to load event:', error);
@@ -87,31 +88,30 @@ export class EventDetailsComponent implements OnInit {
       }
   }
 
-  setRating(rating: number): void {
+  addRating(rating: number): void {
   this.selectedRating = rating;
 
-  this.eventService.rateEvent(this.event!.id, rating).subscribe(() => {
-    this.loadEvent(this.event!.id);
-  });
+  console.log(rating)
+    this.eventService.rateEvent(this.event!.id, rating).subscribe(() => {
+      this.loadEvent(this.event!.id);
+    });
 
   }
 
-
-
   addComment() {
-  const trimmedComment = this.newComment.trim();
-  if (!trimmedComment || !this.event) return;
+    const trimmedComment = this.newComment.trim();
+    if (!trimmedComment || !this.event) return;
 
-  this.eventService.addComment(this.event.id, trimmedComment).subscribe({
-    next: () => {
-      this.loadEvent(this.event!.id);
-      this.newComment = '';
-    },
-    error: (err) => {
-      console.error('Failed to post comment:', err);
-    }
-  });
-}
+    this.eventService.addComment(this.event.id, trimmedComment).subscribe({
+      next: () => {
+        this.loadEvent(this.event!.id);
+        this.newComment = '';
+      },
+      error: (err) => {
+        console.error('Failed to post comment:', err);
+      }
+    });
+  }
 
   isSameDay(start: string, end: string): boolean {
     const startDate = new Date(start);

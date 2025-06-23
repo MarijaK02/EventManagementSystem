@@ -9,6 +9,7 @@
       <div class="chips">
         <span class="chip type">{{ event.type }}</span>
         <span class="chip" [ngClass]="event.status.toLowerCase()">{{ event.status }}</span>
+        <span class="chip">⭐  {{ event.averageRating }}</span>
       </div>
     </div>
   </div>
@@ -98,7 +99,7 @@
   <div class="stars">
     <ng-container *ngFor="let star of [1,2,3,4,5]">
       <span
-        (click)="setRating(star)"
+        (click)="addRating(star)"
         (mouseenter)="hoveredRating = star"
         (mouseleave)="hoveredRating = 0"
         [class.filled]="star <= (hoveredRating || selectedRating || event?.averageRating || 0)"
@@ -127,13 +128,11 @@
   <!-- Comment List -->
   <div class="comment-list">
     <div class="comment" *ngFor="let comment of event?.comments">
-      <p class="user">🗣️ {{ comment.user?.name || 'Anonymous' }}</p>
+      <p class="user">🗣️ {{ comment.username || 'Anonymous' }}</p>
       <p class="text">{{ comment.text }}</p>
     </div>
   </div>
 </section>
-
-
 </div>
 
 <ng-template #notFound>

@@ -171,7 +171,7 @@ public class EventRestController {
     public ResponseEntity<String> rateEvent(@PathVariable Long id, @RequestParam Integer rate){
         try{
             Event event = eventService.addRatingToEvent(id, rate);
-            return ResponseEntity.ok("Rate added successfully");
+            return ResponseEntity.ok("Rate added successfully" + rate);
         } catch(EventNotFoundException ex){
             return ResponseEntity.badRequest().body(ex.getMessage());
         }

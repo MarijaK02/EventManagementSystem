@@ -55,7 +55,7 @@ export interface Event {
 }
 
 export interface Comment {
-  id?: number;
+  id: number;
   text: string;
-  user: User;
+  username: string;
 }

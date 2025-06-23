@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, Router } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
 import { Observable } from 'rxjs';
- import { jwtDecode } from "jwt-decode";
+import { jwtDecode } from 'jwt-decode';
 
 @Injectable({
   providedIn: 'root'
@@ -12,28 +12,31 @@ export class AuthGuard implements CanActivate {
 
   canActivate(
     next: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
 
     const token = localStorage.getItem('token');
 
-    if (token) {
-      try {
-        const decodedToken: any = jwtDecode(token);
+    if (!token) {
+      console.warn('AuthGuard: No token found.');
+      return this.router.parseUrl('/login');
+    }
 
-        if (decodedToken.exp * 1000 < Date.now()) {
-          this.router.navigate(['/login']);
-          return false;
-        }
+    try {
+      const decodedToken: any = jwtDecode(token);
+      const isExpired = Number(decodedToken.exp) * 1000 < Date.now();
 
-        return true;
-      } catch (error) {
-        console.error('Error decoding token:', error);
-        this.router.navigate(['/login']);
-        return false;
+      if (isExpired) {
+        console.warn('AuthGuard: Token expired.');
+        localStorage.removeItem('token'); // cleanup
+        return this.router.parseUrl('/login');
       }
-    } else {
-      this.router.navigate(['/login']);
-      return false;
+
+      return true;
+    } catch (err) {
+      console.error('AuthGuard: Invalid token.', err);
+      localStorage.removeItem('token');
+      return this.router.parseUrl('/login');
     }
   }
 }

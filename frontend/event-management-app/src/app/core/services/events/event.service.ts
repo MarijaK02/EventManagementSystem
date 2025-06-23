@@ -49,21 +49,25 @@ export class EventService {
   }
 
   rateEvent(eventId: number, rating: number): Observable<any> {
+    return this.http.post(
+      `${this.baseUrl}/${eventId}/add-rating`,
+      {},
+      {
+        headers: this.authHeaders(),
+        params: { rate: rating },
+        responseType: 'text' as 'text'
+      }
+    );
+  }
+
+addComment(eventId: number, comment: string): Observable<any> {
   return this.http.post(
-    `${this.baseUrl}/${eventId}/add-rating`,
-    { rate: rating },
+    `${this.baseUrl}/${eventId}/comments`,
+    comment,
     {
       headers: this.authHeaders(),
       responseType: 'text'
-    }
-  );
-}
-
-addComment(eventId: number, commentText: string): Observable<any> {
-  return this.http.post(
-    `${this.baseUrl}/${eventId}/comments`,
-    { comment: commentText },
-    { headers: this.authHeaders() }
+     }
   );
 }
 
