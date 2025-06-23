@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Event } from '../../../core/models/event';
-import { EventData } from '../../../core/data_holder/events-data';
+import { Event, ParticipationStatus } from '../../../core/models/event';
+import { EventService } from '../../../core/services/events/event.service';
+import { EventRegistrationDialogComponent } from '../event-registration-dialog/event-registration-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-event-details',
@@ -11,11 +13,12 @@ import { EventData } from '../../../core/data_holder/events-data';
 })
 export class EventDetailsComponent implements OnInit {
   event: Event | undefined;
-  userResponse: 'going' | 'interested' | 'declined' | null = null;
+  participationStatuse = ParticipationStatus;
+  userResponse: ParticipationStatus | null = null;
   newComment: string = '';
   comments: { user: string, text: string }[] = [];
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute, private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     const eventId = Number(this.route.snapshot.paramMap.get('id'));
@@ -23,19 +26,62 @@ export class EventDetailsComponent implements OnInit {
   }
 
   loadEvent(id: number): void {
-    // Replace this logic with a real data fetch if needed
-    const allEvents = [
-      ...EventData.todayEvents,
-      ...EventData.thisWeekEvents,
-      ...EventData.thisMonthEvents
-    ];
-    this.event = allEvents.find(e => e.id === id);
+     this.eventService.getEventById(id).subscribe({
+      next: (eventData) => {
+        this.event = eventData;
+        this.userResponse = eventData.userParticipationStatus;
+      },
+      error: (error) => {
+        console.error('Failed to load event:', error);
+      }
+    });
+
   }
 
-  respond(response: 'going' | 'interested' | 'declined') {
-    this.userResponse = response;
-    // Optionally send to backend
+  respond(response: ParticipationStatus) {
+      this.userResponse = response;
+      console.log(this.userResponse);
+      if (response === ParticipationStatus.GOING) {
+        const dialogRef = this.dialog.open(EventRegistrationDialogComponent, {
+          width: '600px',
+          data: {
+            eventId: this.event!.id,
+          }
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+          if (result) {
+            console.log('Registered users:', result);
+            this.loadEvent(this.event!.id);
+          }
+        });
+
+        return;
+      };
+
+      if (response === ParticipationStatus.INTERESTED || response === ParticipationStatus.DECLINED) {
+        if (!this.event) {
+          console.error('No event loaded.');
+          return;
+        }
+
+        const username = 'student1'; // Replace with actual logged-in user
+
+        this.eventService.setParticipationStatus(this.event.id, response)
+          .subscribe({
+            next: (res) => {
+              console.log(`Participation status updated to ${response}`);
+              console.log('Server response:', res);
+              const eventId = Number(this.route.snapshot.paramMap.get('id'));
+              this.loadEvent(eventId);
+            },
+            error: (err) => {
+              console.error('Failed to update participation status', err);
+            },
+          });
+      }
   }
+
 
   addComment() {
     if (this.newComment.trim()) {

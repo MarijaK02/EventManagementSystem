@@ -11,9 +11,12 @@ import { Event, EventStatus } from '../../../core/models/event';
 export class EventCardComponent {
   @Input() event: Event | null = null; // Event data
   @Output() editEvent = new EventEmitter<Event>();
+  @Output() arrowPressed = new EventEmitter<Event>();
+  @Output() deleteEvent = new EventEmitter<Event>();
+
+
   eventStatus = EventStatus;
 
-   @Output() arrowPressed = new EventEmitter<Event>();
 
   onArrowClick(event: MouseEvent) {
     event.stopPropagation();
@@ -28,6 +31,13 @@ export class EventCardComponent {
     event.stopPropagation();
     if (this.event) {
       this.editEvent.emit(this.event);
+    }
+  }
+
+  onDeleteClick(event: MouseEvent): void {
+    event.stopPropagation();
+    if(this.event){
+      this.deleteEvent.emit(this.event);
     }
   }
 

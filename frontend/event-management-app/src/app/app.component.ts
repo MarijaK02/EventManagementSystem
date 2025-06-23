@@ -1,10 +1,10 @@
-import { Component } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { Component, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { AuthenticationModule } from './features/authentication/authentication.module';
 import { SharedModule } from './shared/shared.module';
 import { EventsModule } from './features/events/events.module';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { AuthInterceptor } from './auth.interceptor';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +15,9 @@ import { HttpClientModule } from '@angular/common/http';
     AuthenticationModule,
     EventsModule,
     HttpClientModule
+  ],
+  providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'

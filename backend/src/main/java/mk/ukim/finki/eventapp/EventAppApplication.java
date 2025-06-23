@@ -20,10 +20,4 @@ public class EventAppApplication {
 		SpringApplication.run(EventAppApplication.class, args);
 	}
 
-	@Bean
-	PasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder(10);
-	}
-
-
 }

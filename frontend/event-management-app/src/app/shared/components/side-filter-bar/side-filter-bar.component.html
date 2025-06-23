@@ -1,13 +1,10 @@
 <div class="side-filters">
-  <!-- Status Filter -->
+    <!-- Date Picker -->
   <mat-form-field>
-    <mat-label>Status</mat-label>
-    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilters()">
-      <mat-option value="" disabled>All</mat-option>
-      <mat-option value="available">Available</mat-option>
-      <mat-option value="booked">Booked</mat-option>
-      <mat-option value="cancelled">Cancelled</mat-option>
-    </mat-select>
+    <mat-label>Pick a date</mat-label>
+    <input matInput [matDatepicker]="datepicker" [(ngModel)]="selectedDate" (dateChange)="applyFilters()" [disabled]="dateDisabled">
+    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+    <mat-datepicker #datepicker></mat-datepicker>
   </mat-form-field>
 
   <!-- Time Picker -->
@@ -18,25 +15,32 @@
     <mat-timepicker #picker></mat-timepicker>
   </mat-form-field>
 
+  <!-- Status Filter -->
+  <mat-form-field>
+    <mat-label>Status</mat-label>
+    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilters()">
+      <mat-option value="">All</mat-option>
+      <mat-option value="available">Available</mat-option>
+      <mat-option value="booked">Booked</mat-option>
+      <mat-option value="cancelled">Cancelled</mat-option>
+    </mat-select>
+  </mat-form-field>
+
   <!-- Event Type Filter -->
   <h3>Filter by Type</h3>
   <section class="event-filter-section">
-    <!-- Select All checkbox -->
     <mat-checkbox
       class="event-type-checkbox"
       [checked]="allEventTypesSelected"
       [indeterminate]="someEventTypesSelected"
-      (change)="toggleAllEventTypes($event.checked)"
-    >
+      (change)="toggleAllEventTypes($event.checked)">
       Select All
     </mat-checkbox>
     <ul>
-      <!-- List of Event Types with checkboxes -->
       <li *ngFor="let type of eventTypes">
         <mat-checkbox
           [checked]="selectedEventTypes[type]"
-          (change)="toggleEventType(type, $event.checked)"
-        >
+          (change)="toggleEventType(type, $event.checked)">
           {{ type }}
         </mat-checkbox>
       </li>
@@ -44,21 +48,4 @@
   </section>
 
   <hr>
-
-  <mat-form-field>
-    <mat-label>Time Status</mat-label>
-    <mat-select [(ngModel)]="selectedStatus" (selectionChange)="applyFilters()">
-      <mat-option value="" disabled>All</mat-option>
-      <mat-option value="upcoming">Upcoming</mat-option>
-      <mat-option value="past">Past</mat-option>
-    </mat-select>
-  </mat-form-field>
-
-  <!-- Date Picker -->
-  <mat-form-field>
-    <mat-label>Pick a date</mat-label>
-    <input matInput [matDatepicker]="datepicker" [(ngModel)]="selectedDate" (dateChange)="applyFilters()" [disabled]="dateDisabled">
-    <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-    <mat-datepicker #datepicker></mat-datepicker>
-  </mat-form-field>
 </div>

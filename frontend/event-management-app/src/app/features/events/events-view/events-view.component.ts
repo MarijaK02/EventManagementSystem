@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { EventData } from '../../../core/data_holder/events-data';
 import { Event, EventStatus, EventType } from '../../../core/models/event';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { combineLatest } from 'rxjs';
+import { EventService } from '../../../core/services/events/event.service';
 
 @Component({
   selector: 'app-events-view',
@@ -10,16 +11,18 @@ import { Router } from '@angular/router';
   styleUrls: ['./events-view.component.scss']
 })
 export class EventsViewComponent implements OnInit {
-  todayEvents = EventData.todayEvents;
-  thisWeekEvents = EventData.thisWeekEvents;
-  thisMonthEvents = EventData.thisMonthEvents;
-  filteredEvents = [...this.todayEvents];
+  todayEvents: Event[] = [];
+  pastEvents: Event[] = [];
+  upcomingEvents: Event[] = [];
+  filteredTodayEvents: Event[] = [];
+  filteredPastEvents: Event[] = [];
+  filteredUpcomingEvents: Event[] = [];
 
-  eventTypes = Object.values(EventType); // All available event types
+  eventTypes = Object.values(EventType);
 
   selectedStatus: EventStatus | null = null;
-  selectedDate: Date | null = null;
   selectedTime: string | null = null;
+  selectedDate: Date | null = null;
   selectedCapacity: number | null = null;
   selectedEventTypes: { [key in EventType]: boolean } = {} as any;
 
@@ -27,88 +30,126 @@ export class EventsViewComponent implements OnInit {
   showEditForm = false;
   selectedEvent: any = null;
 
-  constructor(private router: Router) {}
+  errorMessage: string | null = null;
+
+  constructor(private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
-    // Initialize selected event types as unchecked
-    this.eventTypes.forEach((type) => {
+    this.eventTypes.forEach(type => {
       this.selectedEventTypes[type] = false;
+    });
+    this.loadEvents();
+  }
+
+  loadEvents(): void {
+    combineLatest([
+      this.eventService.getTodayEvents(),
+      this.eventService.getUpcomingEvents(),
+      this.eventService.getPastEvents()
+    ]).subscribe({
+      next: ([todayEvents, upcomingEvents, pastEvents]) => {
+        this.todayEvents = todayEvents;
+        this.upcomingEvents = upcomingEvents;
+        this.pastEvents = pastEvents;
+
+        this.filteredTodayEvents = [...this.todayEvents];
+        this.filteredUpcomingEvents = [...this.upcomingEvents];
+        this.filteredPastEvents = [...this.pastEvents];
+      },
+      error: (err) => {
+        console.error('Failed to load events', err);
+        this.errorMessage = 'Could not load events. Please try again later.';
+      }
     });
   }
 
-  // Apply filters after the filter component emits changes
   applyFilters(filters: any): void {
     this.selectedStatus = filters.selectedStatus;
+    this.selectedTime = filters.selectedTime;
     this.selectedEventTypes = filters.selectedEventTypes;
     this.selectedDate = filters.selectedDate;
     this.selectedCapacity = filters.selectedCapacity;
 
-    this.filteredEvents = this.todayEvents.filter((event) => {
-      // Matching the event status using EventStatus enum
-      const matchesStatus =
-        !this.selectedStatus || this.selectedStatus === event.status; // Directly comparing the status field
+    const selectedTypes = Object.entries(this.selectedEventTypes)
+      .filter(([_, selected]) => selected)
+      .map(([type]) => type);
 
-      // // Matching the selected date
-      // const matchesDate =
-      //   !this.selectedDate || new Date(event.date).toDateString() === this.selectedDate.toDateString();
+    const matchesFilters = (event: Event): boolean => {
+      const matchesStatus = !this.selectedStatus || this.selectedStatus === event.status;
 
-      // Matching the selected capacity
-      const matchesCapacity =
-        !this.selectedCapacity || event.capacity >= this.selectedCapacity;
+      const matchesCapacity = !this.selectedCapacity || event.capacity >= this.selectedCapacity;
 
-      // Matching the selected event types
       const matchesEventTypes =
-        !Object.values(this.selectedEventTypes).some((selected) => selected) || // No type selected
-        this.selectedEventTypes[event.type]; // Matches selected type
+      selectedTypes.length === 0 || selectedTypes.some(type => type === event.type);
 
-      return matchesStatus && matchesCapacity && matchesEventTypes;
-    });
+      const matchesDate =
+        !this.selectedDate ||
+        new Date(event.startTime).toDateString() === this.selectedDate.toDateString();
+
+      const matchesTime =
+        !this.selectedTime ||
+        new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) ===
+        new Date(`1970-01-01T${this.selectedTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      return matchesStatus && matchesCapacity && matchesEventTypes && matchesDate && matchesTime;
+    };
+
+    this.filteredTodayEvents = this.todayEvents.filter(matchesFilters);
+    this.filteredUpcomingEvents = this.upcomingEvents.filter(matchesFilters);
+    this.filteredPastEvents = this.pastEvents.filter(matchesFilters);
   }
 
-  // Reset filters
   resetFilters(): void {
     this.selectedStatus = null;
+    this.selectedTime = null;
     this.selectedDate = null;
     this.selectedCapacity = null;
-    this.eventTypes.forEach((type) => {
+    this.eventTypes.forEach(type => {
       this.selectedEventTypes[type] = false;
     });
-    this.filteredEvents = [...this.todayEvents];
-  }
-
-  handleEditEvent(event: any): void {
-    this.selectedEvent = event;
-    this.showCreateForm = false;
-    this.showEditForm = true;
+    this.filteredTodayEvents = [...this.todayEvents];
+    this.filteredUpcomingEvents = [...this.upcomingEvents];
+    this.filteredPastEvents = [...this.pastEvents];
   }
 
   openCreateEvent(): void {
-    this.showCreateForm = true;
-    this.showEditForm = false;
+    this.router.navigate(['events/create-event']);
   }
 
-  openEditEvent(event: any): void {
-    this.selectedEvent = event;
-    this.showEditForm = true;
-    this.showCreateForm = false;
+  openEditEvent(event: Event): void {
+    this.router.navigate(['events/edit-event', event.id]);
   }
 
-  handleEventCreated(newEvent: any): void {
-    this.todayEvents.push(newEvent);
-    this.showCreateForm = false;
-  }
-
-  handleEventUpdated(updatedEvent: any): void {
-    const index = this.todayEvents.findIndex(event => event === updatedEvent.id);
-    if (index !== -1) {
-      this.todayEvents[index] = updatedEvent;
-    }
-    this.showEditForm = false;
-  }
-
-  openEventDetails(event: Event) : void {
-    console.log("from viewss")
-    console.log(event.id)
+  openEventDetails(event: Event): void {
+    console.log("from viewss");
+    console.log(event.id);
     this.router.navigate(['/events', event.id]);
+  }
+
+  handleEventDelete(event: Event): void {
+    if (!event.id) {
+      console.error('Event ID is missing!');
+      return;
+    }
+    this.eventService.deleteEvent(event.id).subscribe({
+    next: () => {
+      console.log(`Deleted event with id ${event.id}`);
+
+      this.todayEvents = this.todayEvents.filter(e => e.id !== event.id);
+      this.filteredTodayEvents = this.filteredTodayEvents.filter(e => e.id !== event.id);
+
+      this.upcomingEvents = this.upcomingEvents.filter(e => e.id !== event.id);
+      this.filteredUpcomingEvents = this.filteredUpcomingEvents.filter(e => e.id !== event.id);
+
+      this.pastEvents = this.pastEvents.filter(e => e.id !== event.id);
+      this.filteredPastEvents = this.filteredPastEvents.filter(e => e.id !== event.id);
+
+      this.errorMessage = null;
+    },
+    error: (err) => {
+      console.error('Error deleting event:', err);
+      this.errorMessage = 'Failed to delete event. Please try again.';
+    }
+  });
   }
 }

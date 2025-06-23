@@ -2,13 +2,44 @@
   <button mat-raised-button color="primary" (click)="openCreateEvent()">Create Event</button>
 </div>
 
-<app-event-create *ngIf="showCreateForm" (eventCreated)="handleEventCreated($event)"></app-event-create>
-
 <div>
   <app-map></app-map>
 </div>
 
-<mat-tab-group>
+<div *ngIf="errorMessage" class="error-message">
+  {{ errorMessage }}
+</div>
+
+<div class="content">
+<app-side-filter-bar
+        [eventTypes]="eventTypes"
+        [selectedStatus]="selectedStatus"
+        [selectedEventTypes]="selectedEventTypes"
+        [selectedDate]="selectedDate"
+        (filtersChanged)="applyFilters($event)"
+></app-side-filter-bar>
+
+<mat-tab-group selectedIndex="1">
+  <mat-tab class="past-events">
+    <ng-template mat-tab-label>
+      <span class="material-symbols-outlined">
+        calendar_view_week
+      </span>
+      <div [matBadge]="pastEvents.length" matBadgeOverlap="false" class="badge">
+        <p>Past events</p>
+      </div>
+    </ng-template>
+    <div class="event-wrapper">
+      <div class="event-container">
+        <app-event-card *ngFor="let event of filteredPastEvents"
+          [event]="event" (arrowPressed)="openEventDetails($event)"
+          (deleteEvent)="handleEventDelete($event)"
+          (editEvent)="openEditEvent($event)"
+        ></app-event-card>
+        <p *ngIf="pastEvents.length === 0" class="no-events-message">No past events found.</p>
+      </div>
+    </div>
+  </mat-tab>
 
   <mat-tab>
     <ng-template mat-tab-label>
@@ -18,46 +49,16 @@
       <div [matBadge]="todayEvents.length" matBadgeOverlap="false" class="badge">
         <p>Today</p>
       </div>
-
     </ng-template>
     <div class="event-wrapper">
-      <app-side-filter-bar
-        [eventTypes]="eventTypes"
-        [selectedStatus]="selectedStatus"
-        [selectedEventTypes]="selectedEventTypes"
-        [selectedDate]="selectedDate"
-        [selectedTime]="selectedTime"
-        [selectedCapacity]="selectedCapacity"
-        (filtersChanged)="applyFilters($event)"
-        [dateDisabled]="true"
-      ></app-side-filter-bar>
       <div class="event-container">
-        <app-event-card *ngFor="let event of todayEvents" [event]="event" (arrowPressed)="openEventDetails($event)"></app-event-card>
-      </div>
-    </div>
-  </mat-tab>
-
-  <mat-tab>
-    <ng-template mat-tab-label>
-      <span class="material-symbols-outlined">
-        calendar_view_week
-        </span>
-        <div [matBadge]="thisWeekEvents.length" matBadgeOverlap="false" class="badge">
-          <p>This week</p>
-        </div>
-    </ng-template>
-    <div class="event-wrapper">
-      <app-side-filter-bar
-        [eventTypes]="eventTypes"
-        [selectedStatus]="selectedStatus"
-        [selectedEventTypes]="selectedEventTypes"
-        [selectedDate]="selectedDate"
-        [selectedTime]="selectedTime"
-        [selectedCapacity]="selectedCapacity"
-        (filtersChanged)="applyFilters($event)"
-      ></app-side-filter-bar>
-      <div class="event-container">
-        <app-event-card *ngFor="let event of thisWeekEvents" [event]="event" (arrowPressed)="openEventDetails($event)"></app-event-card>
+        <app-event-card *ngFor="let event of filteredTodayEvents"
+          [event]="event"
+          (arrowPressed)="openEventDetails($event)"
+          (deleteEvent)="handleEventDelete($event)"
+          (editEvent)="openEditEvent($event)"
+        ></app-event-card>
+        <p *ngIf="todayEvents.length === 0" class="no-events-message">No events found for today.</p>
       </div>
     </div>
   </mat-tab>
@@ -66,29 +67,23 @@
     <ng-template mat-tab-label>
       <span class="material-symbols-outlined">
         calendar_view_month
-        </span>
-        <div [matBadge]="thisMonthEvents.length" matBadgeOverlap="false" class="badge">
-          <p>This Month</p>
-        </div>
+      </span>
+      <div [matBadge]="upcomingEvents.length" matBadgeOverlap="false" class="badge">
+        <p>Upcoming Events</p>
+      </div>
     </ng-template>
     <div class="event-wrapper">
-      <app-side-filter-bar
-        [eventTypes]="eventTypes"
-        [selectedStatus]="selectedStatus"
-        [selectedEventTypes]="selectedEventTypes"
-        [selectedDate]="selectedDate"
-        [selectedTime]="selectedTime"
-        [selectedCapacity]="selectedCapacity"
-        (filtersChanged)="applyFilters($event)"
-      ></app-side-filter-bar>
       <div class="event-container">
         <app-event-card
-          *ngFor="let event of thisMonthEvents"
+          *ngFor="let event of filteredUpcomingEvents"
           [event]="event"
           (arrowPressed)="openEventDetails($event)"
+          (deleteEvent)="handleEventDelete($event)"
+          (editEvent)="openEditEvent($event)"
         ></app-event-card>
+        <p *ngIf="upcomingEvents.length === 0" class="no-events-message" class="no-events-message">No upcoming events found.</p>
       </div>
     </div>
   </mat-tab>
 </mat-tab-group>
-
+</div>

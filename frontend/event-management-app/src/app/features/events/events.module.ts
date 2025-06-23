@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatTabsModule } from '@angular/material/tabs'; // Import MatTabsModule
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatInputModule } from '@angular/material/input';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { FormsModule } from '@angular/forms';
 import {MatTimepickerModule} from '@angular/material/timepicker';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -23,9 +23,21 @@ import { EventCreateComponent } from './event-create/event-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { EventDetailsComponent } from './event-details/event-details.component';
+import { EventRegistrationDialogComponent } from './event-registration-dialog/event-registration-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
 
 @NgModule({
-  declarations: [EventsViewComponent, EventCardComponent, EventEditComponent, EventCreateComponent, EventDetailsComponent],
+  declarations: [
+    EventsViewComponent,
+    EventCardComponent,
+    EventEditComponent,
+    EventCreateComponent,
+    EventDetailsComponent,
+    EventRegistrationDialogComponent,
+    EventsCalendarComponent
+  ],
   imports: [
     CommonModule,
     MatTabsModule, // Ensure MatTabsModule is imported
@@ -36,7 +48,7 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     MatSelectModule,
     MatInputModule,
     MatDatepickerModule,
-    MatNativeDateModule, // MatNativeDateModule is required for MatDatepicker
+    MatNativeDateModule,
     FormsModule,
     MatTimepickerModule,
     MatCheckboxModule,
@@ -45,9 +57,12 @@ import { EventDetailsComponent } from './event-details/event-details.component';
     MatBadgeModule,
     MatExpansionModule,
     ReactiveFormsModule,
-    RouterModule
+    RouterModule,
+    MatDialogModule,
+    FullCalendarModule
 ],
-  providers: []
+  providers: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class EventsModule { }
 

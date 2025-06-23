@@ -1,44 +1,48 @@
-<div class="event-card" [class.unavailable]="event.status !== eventStatus.Available" *ngIf="!!event">
+<div class="event-card" [class.unavailable]="event.status !== eventStatus.AVAILABLE" *ngIf="!!event">
   <!-- Event Status Indicator -->
   <div class="event-status"
-       [class.available]="event.status === eventStatus.Available"
-       [class.cancelled]="event.status === eventStatus.Cancelled"
-       [class.booked]="event.status === eventStatus.Booked">
+       [class.available]="event.status === eventStatus.AVAILABLE"
+       [class.cancelled]="event.status === eventStatus.CANCELLED"
+       [class.booked]="event.status === eventStatus.FINISHED">
   </div>
 
-<!-- Event Date & Time -->
-<div class="event-date-time" *ngIf="event">
-  <ng-container *ngIf="isSameDay(event.start, event.end); else multiDay">
-    <!-- Same day: show date once and time range -->
-    <div class="event-date">
-      <div class="day">{{ event.start | date: 'dd' }}</div>
-      <div class="month">{{ event.start | date: 'MMM' }}</div>
-      <div class="month">{{ event.start | date: 'h:mm a' }} - {{ event.end | date: 'h:mm a' }}</div>
+  <!-- Event Date & Time -->
+  <div class="event-date-time" *ngIf="event">
+    <ng-container *ngIf="isSameDay(event.startTime, event.endTime); else multiDay">
+      <!-- Same day: show date once and time range -->
+      <div class="event-date">
+        <div class="day">{{ event.startTime | date: 'dd' }}</div>
+        <div class="month">{{ event.startTime | date: 'MMM' }}</div>
+        <div class="month">{{ event.startTime | date: 'h:mm a' }} - {{ event.endTime | date: 'h:mm a' }}</div>
+      </div>
+    </ng-container>
+
+    <ng-template #multiDay>
+      <!-- Multi-day: show full startTime and endTime datetime -->
+       <div class="event-date-wrapper">
+        <div class="event-date">
+          startTimes On
+          <div class="day">{{ event.startTime | date: 'dd' }}</div>
+          <div class="month">{{ event.startTime | date: 'MMM' }}</div>
+          <div class="month">{{ event.startTime | date: 'h:mm a' }}</div>
+        </div>
+        <div class="event-date">
+          endTimes On
+          <div class="day">{{ event.endTime | date: 'dd' }}</div>
+          <div class="month">{{ event.endTime | date: 'MMM' }}</div>
+          <div class="month">{{ event.endTime | date: 'h:mm a' }}</div>
+        </div>
+       </div>
+    </ng-template>
+
+    <!-- Event Type below the date/time -->
+    <div class="event-type">
+      {{ event.type }}
     </div>
-  </ng-container>
-
-  <ng-template #multiDay>
-    <!-- Multi-day: show full start and end datetime -->
-     <div class="event-date-wrapper">
-      <div class="event-date">
-        Starts On
-        <div class="day">{{ event.start | date: 'dd' }}</div>
-        <div class="month">{{ event.start | date: 'MMM' }}</div>
-        <div class="month">{{ event.start | date: 'h:mm a' }}</div>
-      </div>
-      <div class="event-date">
-        Ends On
-        <div class="day">{{ event.end | date: 'dd' }}</div>
-        <div class="month">{{ event.end | date: 'MMM' }}</div>
-        <div class="month">{{ event.end | date: 'h:mm a' }}</div>
-      </div>
-     </div>
-
-  </ng-template>
-</div>
+  </div>
 
   <div class="event-image">
-    <img  [src]="event.picture" alt="Event Image" />
+    <img  [src]="event.imageUrl" alt="Event Image" />
   </div>
 
   <!-- Event Details -->
@@ -58,10 +62,10 @@
             </p>
             <p class="event-status-info">
               <strong>Status:</strong>
-              <span *ngIf="event.status === eventStatus.Available; else statusTemplate" class="available">Available</span>
+              <span *ngIf="event.status === eventStatus.AVAILABLE; else statusTemplate" class="available">Available</span>
               <ng-template #statusTemplate>
-                <span *ngIf="event.status === eventStatus.Booked" class="booked">Booked</span>
-                <span *ngIf="event.status === eventStatus.Cancelled" class="cancelled">Cancelled</span>
+                <span *ngIf="event.status === eventStatus.FINISHED" class="booked">Booked</span>
+                <span *ngIf="event.status === eventStatus.CANCELLED" class="cancelled">Cancelled</span>
               </ng-template>
             </p>
         </mat-card-content>
@@ -70,6 +74,11 @@
         <span class="material-symbols-outlined">
           edit
         </span> Edit
+      </button>
+      <button mat-button (click)="onDeleteClick($event)">
+        <span class="material-symbols-outlined">
+          delete
+        </span> Delete
       </button>
       <button mat-button (click)="onArrowClick($event)">
         <span class="material-symbols-outlined">

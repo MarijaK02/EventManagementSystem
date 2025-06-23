@@ -5,9 +5,12 @@ public enum Type {
     EDUCATIONAL,
     CULTURAL,
     NETWORKING,
-    WORKSHOPS,
-    CONFERENCES,
+    WORKSHOP,
+    CONFERENCE,
     CITY,
-    UNIVERSITY
+    UNIVERSITY,
+    SPORTS,
+    PARTY,
+    ACADEMIC
 }
 

@@ -17,6 +17,16 @@
     background-color: red;
   }
 
+  .event-type {
+    margin-top: 6px;          // spacing below the date/time
+    font-size: 0.85rem;       // slightly smaller than title
+    font-weight: 600;         // semi-bold for emphasis
+    color: #666666;           // a medium gray for subtlety
+    text-transform: capitalize; // capitalize first letter of each word
+    font-style: italic;       // optional, to differentiate from other text
+    letter-spacing: 0.5px;    // slight spacing for readability
+  }
+
   .event-image{
     width: auto;
     height: 180px;

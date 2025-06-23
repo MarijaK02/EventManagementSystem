@@ -2,7 +2,7 @@
 
   <!-- Hero Section -->
   <div class="hero">
-    <img class="hero-img" [src]="event.picture" alt="{{ event.name }}">
+    <img class="hero-img" [src]="event.imageUrl" alt="{{ event.name }}">
     <div class="hero-overlay">
       <h1>{{ event.name }}</h1>
       <p>{{ event.type }}</p>
@@ -24,19 +24,19 @@
     <div class="info-box" *ngIf="event">
       <h3>Date & Time</h3>
 
-      <ng-container *ngIf="isSameDay(event.start, event.end); else multiDayInfo">
-        <p>{{ event.start | date: 'MMM d, yyyy' }}</p>
-        <p>{{ event.start | date: 'h:mm a' }} - {{ event.end | date: 'h:mm a' }}</p>
+      <ng-container *ngIf="isSameDay(event.startTime, event.endTime); else multiDayInfo">
+        <p>{{ event.startTime | date: 'MMM d, yyyy' }}</p>
+        <p>{{ event.startTime | date: 'h:mm a' }} - {{ event.endTime | date: 'h:mm a' }}</p>
       </ng-container>
 
       <ng-template #multiDayInfo>
-        <p>Start: {{ event.start | date: 'MMM d, yyyy, h:mm a' }}</p>
-        <p>End: {{ event.end | date: 'MMM d, yyyy, h:mm a' }}</p>
+        <p>startTime: {{ event.startTime | date: 'MMM d, yyyy, h:mm a' }}</p>
+        <p>endTime: {{ event.endTime | date: 'MMM d, yyyy, h:mm a' }}</p>
       </ng-template>
     </div>
     <div class="info-box">
-      <h3>Room</h3>
-      <p>{{ event.room }}</p>
+      <h3>Location</h3>
+      <p>{{ event.location }}</p>
     </div>
     <div class="info-box">
       <h3>Price</h3>
@@ -80,14 +80,14 @@
 <section class="action-buttons">
   <h2>Your Response</h2>
   <div class="button-group">
-    <button (click)="respond('going')" [class.active]="userResponse === 'going'" class="btn going">
-      ✔️ Going
+    <button (click)="respond(participationStatuse.GOING)" [class.active]="userResponse === participationStatuse.GOING" class="btn going">
+      ✔️ Going? Register for the event!
     </button>
-    <button (click)="respond('interested')" [class.active]="userResponse === 'interested'" class="btn interested">
+    <button (click)="respond(participationStatuse.INTERESTED)" [class.active]="userResponse === participationStatuse.INTERESTED" class="btn interested">
       ⭐ Interested
     </button>
-    <button (click)="respond('declined')" [class.active]="userResponse === 'declined'" class="btn declined">
-      ❌ Declined
+    <button (click)="respond(participationStatuse.DECLINED)" [class.active]="userResponse === participationStatuse.DECLINED" class="btn declined">
+      ❌ Decline
     </button>
   </div>
 </section>

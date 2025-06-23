@@ -1,10 +1,9 @@
 <mat-toolbar class="navbar" color="primary">
   <div class="nav">
     <div class="left">
-      <button class="logo-image" mat-button>
+      <button class="logo-image" mat-button (click)="openCalendar()">
         <img src="https://e7.pngegg.com/pngimages/594/45/png-clipart-square-red-and-white-illustration-calendar-date-computer-icons-time-calendar-icon-miscellaneous-calendar-thumbnail.png"/>
       </button>
-
 
       <button mat-button routerLink="/events" class="events" routerLinkActive="active-link">
         <span class="material-symbols-outlined">event_upcoming</span>
@@ -17,13 +16,7 @@
     </div>
 
     <div class="right">
-      <button mat-fab extended [matMenuTriggerFor]="menu" class="profile-button">
-        <mat-icon>account_circle</mat-icon> Profile
-      </button>
-      <mat-menu #menu="matMenu">
-        <button mat-menu-item>Account Settings</button>
-        <button mat-menu-item>Logout</button>
-      </mat-menu>
+       <button mat-button (click)="logout()">Logout</button>
     </div>
   </div>
 </mat-toolbar>

@@ -1,5 +1,7 @@
 package mk.ukim.finki.eventapp.web.controller;
 
+import mk.ukim.finki.eventapp.model.dtos.RegisterDto;
+import mk.ukim.finki.eventapp.model.enumerations.Role;
 import mk.ukim.finki.eventapp.model.exceptions.InvalidArgumentsException;
 import mk.ukim.finki.eventapp.model.exceptions.PasswordsDoNotMatchException;
 import mk.ukim.finki.eventapp.service.AuthService;
@@ -19,13 +21,10 @@ public class RegisterController {
     }
 
     @PostMapping("")
-    public ResponseEntity<String> register(@RequestParam String username,
-                                           @RequestParam String password,
-                                           @RequestParam String repeatPassword,
-                                           @RequestParam String name,
-                                           @RequestParam String surname) {
+    public ResponseEntity<String> register(@RequestBody RegisterDto dto) {
         try {
-            this.authService.register(username, password, repeatPassword, name, surname);
+            this.authService.register(dto.getUsername(), dto.getEmail(),
+                    dto.getPassword(), dto.getRepeatPassword(), dto.getName(), dto.getSurname(), dto.getRole());
             return ResponseEntity.ok("Registration successful");
 
         } catch (PasswordsDoNotMatchException | InvalidArgumentsException ex) {

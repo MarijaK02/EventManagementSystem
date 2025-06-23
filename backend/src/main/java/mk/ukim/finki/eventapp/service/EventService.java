@@ -4,43 +4,46 @@ package mk.ukim.finki.eventapp.service;
 import jakarta.transaction.Transactional;
 import mk.ukim.finki.eventapp.model.Comment;
 import mk.ukim.finki.eventapp.model.Event;
-import mk.ukim.finki.eventapp.model.EventRequestDTO;
+import mk.ukim.finki.eventapp.model.dtos.EventCreateEditRequestDto;
+import mk.ukim.finki.eventapp.model.dtos.EventRequestDTO;
 import mk.ukim.finki.eventapp.model.User;
+import mk.ukim.finki.eventapp.model.enumerations.ParticipationStatus;
 import mk.ukim.finki.eventapp.model.enumerations.Type;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 
 public interface EventService {
 
-    Event createEvent(EventRequestDTO eventRequestDTO);
+    Event createEvent(EventCreateEditRequestDto eventRequestDTO);
+    Event editEvent(Long id, EventCreateEditRequestDto eventRequestDTO);
 
     List<Event> getEventsByType(Type type);
 
 
-    List<Event> getAllEvents();
+    List<EventRequestDTO> getAllEvents();
 
     boolean deleteEvent(Long id);
 
 
-    List<Event> getCurrentEvents();
+    List<EventRequestDTO> getCurrentEvents();
 
-    List<Event> getPastEvents();
+    List<EventRequestDTO> getPastEvents();
 
-    List<Event> getUpcomingEvents();
+    List<EventRequestDTO> getUpcomingEvents();
 
-    Event getEventById(Long id);
+    EventRequestDTO getEventById(Long id);
 
-    void registerForEvent(Long id, User user);
+    void registerForEvent(Long eventId, List<Long> userIds);
+    void setParticipationStatus(Long id, ParticipationStatus status);
 
-    List<Event> getEventsForToday(LocalDateTime startOfDay, LocalDateTime endOfDay);
+    List<EventRequestDTO> getEventsForToday(LocalDateTime startOfDay, LocalDateTime endOfDay);
 
-    Event addCommentToEvent(Long id, String username, String comment);
+    Event addCommentToEvent(Long id, String comment);
 
     @Transactional
-     Event addRatingToEvent(Long eventId, Integer rate, String username);
+     Event addRatingToEvent(Long eventId, Integer rate);
 
     List<Comment> getCommentsForEvent(Long eventId);
 }

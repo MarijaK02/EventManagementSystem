@@ -8,61 +8,58 @@ import { EventStatus, EventType } from '../../../core/models/event';
   styleUrls: ['./side-filter-bar.component.scss']
 })
 export class SideFilterBarComponent implements OnInit {
-  @Input() eventTypes: EventType[] = []; // The available event types
-  @Input() selectedStatus: EventStatus | null = null;  // Selected status filter
-  @Input() selectedEventTypes: { [key in EventType]: boolean } = {} as any;  // Selected event types filter
-  @Input() selectedDate: Date | null = null; // Selected date filter
-  @Input() selectedCapacity: number | null = null; // Selected capacity filter
-  @Input() selectedTime: string | null = null; // Selected time filter (newly added)
+  @Input() eventTypes: EventType[] = [];
+  @Input() selectedStatus: EventStatus | null = null;    // For Available, Booked, Cancelled
+  @Input() selectedTimeStatus: string | null = null;     // For Upcoming, Past
+  @Input() selectedEventTypes: { [key in EventType]: boolean } = {} as any;
+  @Input() selectedDate: Date | null = null;
+  @Input() selectedCapacity: number | null = null;
+  @Input() selectedTime: string | null = null;
   @Input() dateDisabled: boolean = false;
 
-  @Output() filtersChanged = new EventEmitter<any>(); // Emit when filters change
+  @Output() filtersChanged = new EventEmitter<any>();
 
   constructor() {}
 
   ngOnInit(): void {
-    // Ensure the selectedEventTypes are initialized
+    // Initialize selectedEventTypes if undefined
     this.eventTypes.forEach(type => {
-      if (!this.selectedEventTypes[type]) {
+      if (!(type in this.selectedEventTypes)) {
         this.selectedEventTypes[type] = false;
       }
     });
   }
 
   get allEventTypesSelected(): boolean {
-    return this.eventTypes.every((type) => this.selectedEventTypes[type]);
+    return this.eventTypes.every(type => this.selectedEventTypes[type]);
   }
 
-  // Check if some event types are selected (for indeterminate state)
   get someEventTypesSelected(): boolean {
-    return (
-      this.eventTypes.some((type) => this.selectedEventTypes[type]) &&
-      !this.allEventTypesSelected
-    );
+    return this.eventTypes.some(type => this.selectedEventTypes[type]) && !this.allEventTypesSelected;
   }
 
-
-  // Method to emit filter changes
   applyFilters(): void {
     this.filtersChanged.emit({
       selectedStatus: this.selectedStatus,
+      selectedTimeStatus: this.selectedTimeStatus,
       selectedEventTypes: this.selectedEventTypes,
       selectedDate: this.selectedDate,
-      selectedCapacity: this.selectedCapacity
+      selectedCapacity: this.selectedCapacity,
+      selectedTime: this.selectedTime
     });
   }
 
-  // Method to toggle the selection of all event types
   toggleAllEventTypes(checked: boolean): void {
-    this.eventTypes.forEach((type) => {
-      this.selectedEventTypes[type] = checked;
+    const newSelected = { ...this.selectedEventTypes };
+    this.eventTypes.forEach(type => {
+      newSelected[type] = checked;
     });
+    this.selectedEventTypes = newSelected;
     this.applyFilters();
   }
 
-  // Method to toggle an individual event type
   toggleEventType(type: EventType, checked: boolean): void {
-    this.selectedEventTypes[type] = checked;
+    this.selectedEventTypes = { ...this.selectedEventTypes, [type]: checked };
     this.applyFilters();
   }
 }

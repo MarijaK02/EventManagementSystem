@@ -6,10 +6,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Entity;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import mk.ukim.finki.eventapp.model.enumerations.Status;
 import mk.ukim.finki.eventapp.model.enumerations.Type;
 
@@ -22,14 +19,14 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-@Table(name = "event")
+@Table(name = "events")
+@ToString(exclude = {"participants", "comments", "rates"})
 public class Event {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Double rating;
-
     private String name;
     private String description;
 
@@ -39,7 +36,10 @@ public class Event {
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
 
-    private String location;
+    @ManyToOne
+    @JoinColumn(name = "location_id")
+    private Location location;
+
     private LocalDateTime createdAt;
 
     @Enumerated(EnumType.STRING)
@@ -48,28 +48,27 @@ public class Event {
     @Enumerated(EnumType.STRING)
     private Type type;
 
+    private String imageUrl;
+    private int price;
+    private int capacity;
+    private String organizer;
+
     @ManyToOne
-    @JoinColumn(name = "organizer_id")
-    @JsonBackReference
-    private User organizer;
+    @JoinColumn(name = "creator_id")
+    @JsonBackReference // Prevent circular reference on creator side
+    private User creator;
 
-
+    // Ignore this field to prevent infinite recursion
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @JsonIgnore
+    private List<UserEventParticipation> participants = new ArrayList<>();
 
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference // Forward reference on comments side
     private List<Comment> comments = new ArrayList<>();
 
-
-
-    @ManyToMany
-    @JsonManagedReference
-    private List<User> participants = new ArrayList<>();
-
-
-
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference // Forward reference on rates side
     private List<Rate> rates = new ArrayList<>();
-
-
 }
+

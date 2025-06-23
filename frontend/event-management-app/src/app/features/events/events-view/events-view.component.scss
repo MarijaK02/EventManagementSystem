@@ -1,5 +1,12 @@
 @use '../../../../my-theme.scss' as my-theme;
 
+.content{
+  display: flex;
+  flex-direction: row;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+}
+
 .event-wrapper{
   display: flex;
   width: 100%;
@@ -42,7 +49,11 @@ app-side-filter-bar{
   overflow-y: auto;
 
   position: sticky;
-  width: 15%;
+  width: 25%;
+  height: auto;
+
+  display: flex;
+  margin-right: 2rem;
 
   ::ng-deep mat-form-field{
     padding-bottom: 1rem;
@@ -50,9 +61,45 @@ app-side-filter-bar{
   }
 }
 
+mat-tab-group{
+  width: 100%;
+}
+
 .badge{
   ::ng-deep span{
     margin: var(--mat-badge-container-offset, -20px 0);
+  }
+}
+
+.no-events-message {
+  color: #888;
+  font-style: italic;
+  text-align: center;
+  margin-top: 1rem;
+}
+
+.past-events {
+  background-color: #f8f9fa; /* Light background color for past events tab */
+  padding: 16px;
+  border-radius: 4px;
+
+  .event-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .event-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 16px;
+  }
+
+  .no-events-message {
+    color: #888;
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
   }
 }
 

@@ -1,19 +1,16 @@
 package mk.ukim.finki.eventapp.web.controller;
 
-
-import jakarta.validation.Valid;
 import mk.ukim.finki.eventapp.model.User;
 import mk.ukim.finki.eventapp.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/api/users")
 public class UserRestController {
 
     private final UserService userService;
@@ -44,7 +41,4 @@ public class UserRestController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("User not found");
         }
     }
-
-
-
 }
