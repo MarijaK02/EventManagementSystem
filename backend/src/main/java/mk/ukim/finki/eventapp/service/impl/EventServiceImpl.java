@@ -512,8 +512,6 @@ public class EventServiceImpl implements EventService {
 
         this.rateRepository.save(newRate);
 
-        event.getRates().add(newRate);
-
         int sumRates = event.getRates().stream().mapToInt(Rate::getRate).sum();
         event.setRating((double) sumRates / event.getRates().size());
 
@@ -527,7 +525,7 @@ public class EventServiceImpl implements EventService {
         Event event = this.eventRepository.findById(wineryId).orElseThrow(() -> new EventNotFoundException("Event not found"));
         List<CommentDto> comments = this.commentRepository.findAllByEvent(event).stream().map(comment -> {
             CommentDto commentDto = new CommentDto();
-            commentDto.setComment(comment.getComment());
+            commentDto.setText(comment.getComment());
             commentDto.setUsername(comment.getUser().getUsername());
             commentDto.setId(comment.getId());
             return commentDto;
