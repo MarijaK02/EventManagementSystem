@@ -92,22 +92,47 @@
   </div>
 </section>
 
+<!-- Event Rating -->
+<div class="rating-box">
+  <h3>Rating</h3>
+  <div class="stars">
+    <ng-container *ngFor="let star of [1,2,3,4,5]">
+      <span
+        (click)="setRating(star)"
+        (mouseenter)="hoveredRating = star"
+        (mouseleave)="hoveredRating = 0"
+        [class.filled]="star <= (hoveredRating || selectedRating || event?.averageRating || 0)"
+        style="cursor: pointer;"
+      >
+        ★
+      </span>
+    </ng-container>
+    <span class="average">
+      ({{ (selectedRating || event?.averageRating || 0) | number:'1.1-1' }})
+    </span>
+  </div>
+</div>
+
+
 <!-- Comment Section -->
 <section class="comments">
   <h2>Comments</h2>
 
-  <form (submit)="addComment()">
+  <!-- Comment Form -->
+  <form (submit)="addComment()" #commentForm="ngForm">
     <textarea [(ngModel)]="newComment" name="comment" placeholder="Add a comment..." required></textarea>
-    <button type="submit">Post</button>
+    <button type="submit" [disabled]="!newComment.trim()">Post</button>
   </form>
 
+  <!-- Comment List -->
   <div class="comment-list">
-    <div class="comment" *ngFor="let comment of comments">
-      <p class="user">🗣️ {{ comment.user }}</p>
+    <div class="comment" *ngFor="let comment of event?.comments">
+      <p class="user">🗣️ {{ comment.user?.name || 'Anonymous' }}</p>
       <p class="text">{{ comment.text }}</p>
     </div>
   </div>
 </section>
+
 
 </div>
 

@@ -4,6 +4,7 @@ package mk.ukim.finki.eventapp.service;
 import jakarta.transaction.Transactional;
 import mk.ukim.finki.eventapp.model.Comment;
 import mk.ukim.finki.eventapp.model.Event;
+import mk.ukim.finki.eventapp.model.dtos.CommentDto;
 import mk.ukim.finki.eventapp.model.dtos.EventCreateEditRequestDto;
 import mk.ukim.finki.eventapp.model.dtos.EventRequestDTO;
 import mk.ukim.finki.eventapp.model.User;
@@ -45,5 +46,5 @@ public interface EventService {
     @Transactional
      Event addRatingToEvent(Long eventId, Integer rate);
 
-    List<Comment> getCommentsForEvent(Long eventId);
+    List<CommentDto> getCommentsForEvent(Long eventId);
 }

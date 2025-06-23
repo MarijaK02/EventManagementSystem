@@ -50,4 +50,12 @@ export interface Event {
   organizer: string,
   creator: User,
   userParticipationStatus: ParticipationStatus
+  averageRating: number;
+  comments: Comment[];
+}
+
+export interface Comment {
+  id?: number;
+  text: string;
+  user: User;
 }

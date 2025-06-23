@@ -158,11 +158,11 @@ public class EventRestController {
         }
     }
     @PostMapping("/{eventId}/comments")
-    public ResponseEntity<String> commentEvent(@PathVariable Long eventId, @RequestParam String comment){
-        try{
+    public ResponseEntity<String> commentEvent(@PathVariable Long eventId, @RequestBody String comment) {
+        try {
             Event event = eventService.addCommentToEvent(eventId, comment);
             return ResponseEntity.ok("Comment added successfully");
-        } catch(EventNotFoundException | InvalidUsernameException ex){
+        } catch (EventNotFoundException | InvalidUsernameException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());
         }
     }

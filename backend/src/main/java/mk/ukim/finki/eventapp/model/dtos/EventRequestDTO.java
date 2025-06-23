@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import mk.ukim.finki.eventapp.model.User;
 import mk.ukim.finki.eventapp.model.enumerations.ParticipationStatus;
@@ -40,5 +41,9 @@ public class EventRequestDTO {
     private int interested;
     private int declined;
     private ParticipationStatus userParticipationStatus;
+
+    private double averageRating;
+
+    private List<CommentDto> comments;
 }
 

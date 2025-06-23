@@ -18,6 +18,9 @@ export class EventDetailsComponent implements OnInit {
   newComment: string = '';
   comments: { user: string, text: string }[] = [];
 
+  selectedRating: number = 0;
+  hoveredRating: number = 0;
+
   constructor(private route: ActivatedRoute, private eventService: EventService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
@@ -26,17 +29,19 @@ export class EventDetailsComponent implements OnInit {
   }
 
   loadEvent(id: number): void {
-     this.eventService.getEventById(id).subscribe({
-      next: (eventData) => {
-        this.event = eventData;
-        this.userResponse = eventData.userParticipationStatus;
-      },
-      error: (error) => {
-        console.error('Failed to load event:', error);
-      }
-    });
-
-  }
+  this.eventService.getEventById(id).subscribe({
+    next: (eventData) => {
+      this.event = {
+        ...eventData,
+        averageRating: Number(eventData.averageRating),
+      };
+      this.userResponse = eventData.userParticipationStatus;
+    },
+    error: (error) => {
+      console.error('Failed to load event:', error);
+    }
+  });
+}
 
   respond(response: ParticipationStatus) {
       this.userResponse = response;
@@ -82,16 +87,31 @@ export class EventDetailsComponent implements OnInit {
       }
   }
 
+  setRating(rating: number): void {
+  this.selectedRating = rating;
+
+  this.eventService.rateEvent(this.event!.id, rating).subscribe(() => {
+    this.loadEvent(this.event!.id);
+  });
+
+  }
+
+
 
   addComment() {
-    if (this.newComment.trim()) {
-      this.comments.push({
-        user: 'You',
-        text: this.newComment.trim()
-      });
+  const trimmedComment = this.newComment.trim();
+  if (!trimmedComment || !this.event) return;
+
+  this.eventService.addComment(this.event.id, trimmedComment).subscribe({
+    next: () => {
+      this.loadEvent(this.event!.id);
       this.newComment = '';
+    },
+    error: (err) => {
+      console.error('Failed to post comment:', err);
     }
-  }
+  });
+}
 
   isSameDay(start: string, end: string): boolean {
     const startDate = new Date(start);

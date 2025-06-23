@@ -1,6 +1,7 @@
 package mk.ukim.finki.eventapp.service.impl;
 import jakarta.transaction.Transactional;
 import mk.ukim.finki.eventapp.model.*;
+import mk.ukim.finki.eventapp.model.dtos.CommentDto;
 import mk.ukim.finki.eventapp.model.dtos.EventCreateEditRequestDto;
 import mk.ukim.finki.eventapp.model.dtos.EventRequestDTO;
 import mk.ukim.finki.eventapp.model.enumerations.ParticipationStatus;
@@ -25,6 +26,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class EventServiceImpl implements EventService {
@@ -350,6 +352,19 @@ public class EventServiceImpl implements EventService {
         dto.setOrganizer(event.getOrganizer());
         dto.setUserParticipationStatus(userParticipationStatus);
 
+        double averageRating = 0.0;
+        if (!event.getRates().isEmpty()) {
+            int sumRates = event.getRates().stream().mapToInt(Rate::getRate).sum();
+            averageRating = (double) sumRates / event.getRates().size();
+        }
+        dto.setAverageRating(averageRating);
+
+        List<CommentDto> commentDTOs = event.getComments().stream()
+                .map(c -> new CommentDto(c.getId(), c.getComment(), c.getUser().getUsername()))
+                .collect(Collectors.toList());
+
+        dto.setComments(commentDTOs);
+
         return dto;
     }
 
@@ -437,13 +452,14 @@ public class EventServiceImpl implements EventService {
 
         Comment newComment = new Comment(commentText);
         newComment.setEvent(event);
+        newComment.setUser(user);
         this.commentRepository.save(newComment);
 
-        user.getComments().add(newComment);
-        this.userRepository.save(user);
+//        user.getComments().add(newComment);
+//        this.userRepository.save(user);
 
-        event.getComments().add(newComment);
-        this.eventRepository.save(event);
+//        event.getComments().add(newComment);
+//        this.eventRepository.save(event);
 
         return event;
 
@@ -507,9 +523,16 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<Comment> getCommentsForEvent(Long wineryId) {
-        Event winery = this.eventRepository.findById(wineryId).orElseThrow(() -> new EventNotFoundException("Event not found"));
-        return commentRepository.findAllByEvent(winery);
+    public List<CommentDto> getCommentsForEvent(Long wineryId) {
+        Event event = this.eventRepository.findById(wineryId).orElseThrow(() -> new EventNotFoundException("Event not found"));
+        List<CommentDto> comments = this.commentRepository.findAllByEvent(event).stream().map(comment -> {
+            CommentDto commentDto = new CommentDto();
+            commentDto.setComment(comment.getComment());
+            commentDto.setUsername(comment.getUser().getUsername());
+            commentDto.setId(comment.getId());
+            return commentDto;
+        }).collect(Collectors.toList());
+        return comments;
     }
 
 

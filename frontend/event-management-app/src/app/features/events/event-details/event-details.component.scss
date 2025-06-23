@@ -3,6 +3,24 @@
   font-family: 'Segoe UI', sans-serif;
   color: #2b160e;
 
+    .stars {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 1.5rem;
+  color: #4d251c;
+
+  .filled {
+    color: #fbc02d;
+  }
+
+  .average {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    color: #4d251c;
+  }
+}
+
   .hero {
     position: relative;
     height: 380px;
