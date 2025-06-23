@@ -58,13 +58,13 @@
         </mat-card-header>
         <mat-card-content>
             <p class="event-capacity">
-              <strong>Capacity:</strong> {{ event.capacity }} <br />
-              <strong>Going:</strong> {{ event.going }} |
-              <strong>Interested:</strong> {{ event.interested }} |
-              <strong>Declined:</strong> {{ event.declined }}
+              <strong>Capacity: </strong> {{ event.capacity }} <br />
+              <strong>Going: </strong> {{ event.going }} |
+              <strong>Interested: </strong> {{ event.interested }} |
+              <strong>Declined: </strong> {{ event.declined }}
             </p>
             <p class="event-status-info">
-              <strong>Status:</strong>
+              <strong>Status: </strong>
               <span *ngIf="event.status === eventStatus.AVAILABLE; else statusTemplate" class="available">Available</span>
               <ng-template #statusTemplate>
                 <span *ngIf="event.status === eventStatus.FINISHED" class="booked">Booked</span>

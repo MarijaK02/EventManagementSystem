@@ -133,6 +133,19 @@ $_rest: (
   error: map.get($_palettes, error),
 );
 
+$accent-green: #66bb6a;
+$primary-green: #2e7d32;
+$warn-color: #e53935;
+
+$card-background: #e8f5e9;
+$text-primary: #2e2e2e;
+$text-secondary: #666666;
+$divider-color: #cfd8dc;
+
+$warn-color-light: #ffcdd2;      // light red background
+$accent-green-light: #c8e6c9;    // light green background
+
+
 $primary-palette: map.merge(map.get($_palettes, primary), $_rest);
 $tertiary-palette: map.merge(map.get($_palettes, tertiary), $_rest);
 
@@ -149,4 +162,3 @@ $event-card-color: linear-gradient(to left,
   map.get($_palettes, primary, 90),
   map.get($_palettes, primary, 95)
 );
-

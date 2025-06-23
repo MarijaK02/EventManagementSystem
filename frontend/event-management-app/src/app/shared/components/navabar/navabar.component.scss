@@ -53,10 +53,40 @@ mat-toolbar.navbar {
   }
 }
 
+button span {
+  vertical-align: middle;
+  font-weight: 500;
+}
+
+button mat-icon {
+  vertical-align: middle;
+  font-size: 20px;
+}
+
+.logo-btn img {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+button mat-icon {
+  vertical-align: middle;
+}
+
+button span {
+  vertical-align: middle;
+}
+
+
 .logo-btn {
-  mat-icon {
-    font-size: 50px;
-    color: $light-green;
+  padding: 0.25rem;
+
+  img {
+    height: 36px;
+    width: 36px;
+    border-radius: 50%;
+    object-fit: cover;
   }
 
   &:hover {
@@ -78,6 +108,8 @@ mat-toolbar.navbar {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.5rem 1.2rem;
+  font-size: 0.95rem;
 
     &:hover {
       background-color: lighten($accent-green, 10%);

@@ -1,105 +1,144 @@
 @use '../../../../my-theme.scss' as my-theme;
 
-.content{
+$content-padding: 2rem;
+
+$content-bg: #ffffff;
+$filter-bg: #f1f8e9;
+$tab-bg: #fafafa;
+$card-bg: #e8f5e9;
+$badge-color: #2e7d32;
+$light-border: #d6d6d6;
+
+.content {
   display: flex;
-  flex-direction: row;
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  gap: 2rem;
+  margin: $content-padding;
+  flex-wrap: wrap;
 }
 
-.event-wrapper{
+.action-buttons {
   display: flex;
-  width: 100%;
-  min-height: 51.5rem;
-}
+  justify-content: flex-end;
+  margin: 1.5rem $content-padding 0;
 
-.event-container {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* Two cards per row */
-  gap: 15px; /* Increased gap between cards */
-  padding: 20px;
-  width: 100%;
-  height: 100%;
-}
+  button {
+    font-weight: 600;
+    text-transform: none;
+    background-color: my-theme.$accent-green;
+    color: white;
+    border-radius: 8px;
+    padding: 0.5rem 1.2rem;
+    margin: 20px;
 
-.page-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 20px;
-  color: #333;
-}
-
-/* For smaller screens (tablet and mobile) */
-@media (max-width: 768px) {
-  .event-container {
-    grid-template-columns: 1fr; /* One card per row */
+    &:hover {
+      background-color: lighten(my-theme.$accent-green, 8%);
+      box-shadow: 0 4px 12px rgba(102, 187, 106, 0.3);
+    }
   }
 }
 
-@media (max-width: 480px) {
-  .page-title {
-    font-size: 1.5rem;
-  }
-}
-
-app-side-filter-bar{
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
-  background-color: my-theme.$side-nav-color;
-  padding: 1rem;
-  overflow-y: auto;
-
+app-side-filter-bar {
+  flex: 0 0 280px;
+  background-color: $filter-bg;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  height: fit-content;
   position: sticky;
-  width: 25%;
-  height: auto;
+  top: 90px;
+  border: 1px solid $light-border;
 
-  display: flex;
-  margin-right: 2rem;
-
-  ::ng-deep mat-form-field{
+  ::ng-deep mat-form-field {
     padding-bottom: 1rem;
     width: 100%;
   }
 }
 
-mat-tab-group{
-  width: 100%;
-}
+mat-tab-group {
+  flex: 1;
+  background-color: $tab-bg;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.04);
+  padding: 1.5rem;
 
-.badge{
-  ::ng-deep span{
-    margin: var(--mat-badge-container-offset, -20px 0);
+  ::ng-deep .mat-tab-label {
+    font-weight: 600;
+    color: my-theme.$primary-green;
+  }
+
+  ::ng-deep .mat-tab-label-active {
+    color: my-theme.$accent-green;
   }
 }
 
-.no-events-message {
-  color: #888;
-  font-style: italic;
-  text-align: center;
-  margin-top: 1rem;
-}
-
-.past-events {
-  background-color: #f8f9fa; /* Light background color for past events tab */
-  padding: 16px;
-  border-radius: 4px;
-
+mat-tab {
   .event-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
+    width: 100%;
+    padding-top: 1rem;
+    min-height: 600px;
   }
 
   .event-container {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: 16px;
-  }
-
-  .no-events-message {
-    color: #888;
-    font-size: 18px;
-    text-align: center;
-    margin-top: 20px;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
   }
 }
 
+app-event-card {
+  background-color: $card-bg;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  border: 1px solid $light-border;
+}
+
+.badge {
+  ::ng-deep span {
+    margin: -12px 0 0 4px;
+    font-size: 14px;
+    color: $badge-color;
+  }
+
+  p {
+    margin: 0;
+    font-weight: 600;
+    color: $badge-color;
+  }
+}
+
+.no-events-message {
+  color: #777;
+  font-style: italic;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: 2rem;
+}
+
+.past-events {
+  background-color: #f9fbe7;
+  border-radius: 8px;
+  padding: 1rem;
+}
+
+@media (max-width: 1024px) {
+  .content {
+    flex-direction: column;
+  }
+
+  app-side-filter-bar {
+    width: 100%;
+    position: relative;
+  }
+}
+
+@media (max-width: 768px) {
+  .event-container {
+    grid-template-columns: 1fr;
+  }
+
+  .action-buttons {
+    justify-content: center;
+  }
+}
