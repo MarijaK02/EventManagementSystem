@@ -27,6 +27,8 @@ import { EventRegistrationDialogComponent } from './event-registration-dialog/ev
 import { MatDialogModule } from '@angular/material/dialog';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { EventsCalendarComponent } from './events-calendar/events-calendar.component';
+import { CarouselModule } from 'ngx-bootstrap/carousel';
+
 
 @NgModule({
   declarations: [
@@ -59,7 +61,8 @@ import { EventsCalendarComponent } from './events-calendar/events-calendar.compo
     ReactiveFormsModule,
     RouterModule,
     MatDialogModule,
-    FullCalendarModule
+    FullCalendarModule,
+    CarouselModule
 ],
   providers: [],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

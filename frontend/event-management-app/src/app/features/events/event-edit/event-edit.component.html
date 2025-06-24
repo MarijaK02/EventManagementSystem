@@ -66,10 +66,15 @@
       <mat-timepicker #endTimePicker></mat-timepicker>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="outline" color="primary">
       <mat-label>Location</mat-label>
-      <input matInput formControlName="location" />
+      <mat-select formControlName="locationId" [disabled]="!!editEventForm.get('locationId')?.disabled">
+        <mat-option *ngFor="let loc of locations" [value]="loc.id" [disabled]="loc.disabled">
+          {{ loc.name }}
+        </mat-option>
+      </mat-select>
     </mat-form-field>
+
 
     <mat-form-field appearance="fill">
       <mat-label>Price</mat-label>

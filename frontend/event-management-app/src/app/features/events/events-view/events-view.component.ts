@@ -3,6 +3,7 @@ import { Event, EventStatus, EventType } from '../../../core/models/event';
 import { ActivatedRoute, Router } from '@angular/router';
 import { combineLatest } from 'rxjs';
 import { EventService } from '../../../core/services/events/event.service';
+import { OwlOptions } from 'ngx-owl-carousel-o';
 
 @Component({
   selector: 'app-events-view',
@@ -14,6 +15,7 @@ export class EventsViewComponent implements OnInit {
   todayEvents: Event[] = [];
   pastEvents: Event[] = [];
   upcomingEvents: Event[] = [];
+  currentEvents: Event[] = [];
   filteredTodayEvents: Event[] = [];
   filteredPastEvents: Event[] = [];
   filteredUpcomingEvents: Event[] = [];
@@ -34,6 +36,8 @@ export class EventsViewComponent implements OnInit {
 
   loggedInUserEmail: string = "";
 
+  defaultImage = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQkYKEdUuzbD126hCKbp7n49fcumh6PEWZyqQ&s';
+
   constructor(private router: Router, private eventService: EventService) {}
 
   ngOnInit(): void {
@@ -48,12 +52,14 @@ export class EventsViewComponent implements OnInit {
     combineLatest([
       this.eventService.getTodayEvents(),
       this.eventService.getUpcomingEvents(),
-      this.eventService.getPastEvents()
+      this.eventService.getPastEvents(),
+      this.eventService.getCurrentEvents()
     ]).subscribe({
-      next: ([todayEvents, upcomingEvents, pastEvents]) => {
+      next: ([todayEvents, upcomingEvents, pastEvents, currentEvents]) => {
         this.todayEvents = todayEvents;
         this.upcomingEvents = upcomingEvents;
         this.pastEvents = pastEvents;
+        this.currentEvents = currentEvents;
 
         this.filteredTodayEvents = [...this.todayEvents];
         this.filteredUpcomingEvents = [...this.upcomingEvents];

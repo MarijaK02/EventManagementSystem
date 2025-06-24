@@ -103,14 +103,14 @@
         (click)="addRating(star)"
         (mouseenter)="hoveredRating = star"
         (mouseleave)="hoveredRating = 0"
-        [class.filled]="star <= (hoveredRating || selectedRating || event?.averageRating || 0)"
+        [class.filled]="star <= (hoveredRating || selectedRating || event.averageRating || 0)"
         style="cursor: pointer;"
       >
         ★
       </span>
     </ng-container>
     <span class="average">
-      ({{ (selectedRating || event?.averageRating || 0) | number:'1.1-1' }})
+      ({{ (selectedRating || event.averageRating || 0) | number:'1.1-1' }})
     </span>
   </div>
 </div>
