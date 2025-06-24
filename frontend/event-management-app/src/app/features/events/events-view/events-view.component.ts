@@ -72,41 +72,52 @@ export class EventsViewComponent implements OnInit {
     });
   }
 
-  applyFilters(filters: any): void {
-    this.selectedStatus = filters.selectedStatus;
-    this.selectedTime = filters.selectedTime;
-    this.selectedEventTypes = filters.selectedEventTypes;
-    this.selectedDate = filters.selectedDate;
-    this.selectedCapacity = filters.selectedCapacity;
+ applyFilters(filters: any): void {
+  this.selectedStatus = filters.selectedStatus;
+  this.selectedTime = filters.selectedTime;
+  this.selectedEventTypes = filters.selectedEventTypes;
+  this.selectedDate = filters.selectedDate;
+  this.selectedCapacity = filters.selectedCapacity;
 
-    const selectedTypes = Object.entries(this.selectedEventTypes)
-      .filter(([_, selected]) => selected)
-      .map(([type]) => type);
+  const selectedTypes = Object.entries(this.selectedEventTypes)
+    .filter(([_, selected]) => selected)
+    .map(([type]) => type);
 
-    const matchesFilters = (event: Event): boolean => {
-      const matchesStatus = !this.selectedStatus || this.selectedStatus === event.status;
+  const matchesFilters = (event: Event): boolean => {
+    // Status filter
+    const matchesStatus = !this.selectedStatus || this.selectedStatus === event.status;
 
-      const matchesCapacity = !this.selectedCapacity || event.capacity >= this.selectedCapacity;
+    // Capacity filter
+    const matchesCapacity = !this.selectedCapacity || event.capacity >= this.selectedCapacity;
 
-      const matchesEventTypes =
-      selectedTypes.length === 0 || selectedTypes.some(type => type === event.type);
+    // Event Types filter
+    const matchesEventTypes =
+      selectedTypes.length === 0 || selectedTypes.includes(event.type);
 
-      const matchesDate =
-        !this.selectedDate ||
-        new Date(event.startTime).toDateString() === this.selectedDate.toDateString();
+    // Date filter
+    const eventDate = new Date(event.startTime);
+    const selected = this.selectedDate!;
+    const matchesDate = !selected || (
+      eventDate.getFullYear() === selected.getFullYear() &&
+      eventDate.getMonth() === selected.getMonth() &&
+      eventDate.getDate() === selected.getDate()
+    );
 
-      const matchesTime =
-        !this.selectedTime ||
-        new Date(event.startTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) ===
-        new Date(`1970-01-01T${this.selectedTime}`).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    // Time filter
+    if (!this.selectedTime) {
+      return matchesStatus && matchesCapacity && matchesEventTypes && matchesDate;
+    }
+    const [selHours, selMinutes] = this.selectedTime.split(':').map(Number);
+    const matchesTime = eventDate.getHours() === selHours && eventDate.getMinutes() === selMinutes;
 
-      return matchesStatus && matchesCapacity && matchesEventTypes && matchesDate && matchesTime;
-    };
+    return matchesStatus && matchesCapacity && matchesEventTypes && matchesDate && matchesTime;
+  };
 
-    this.filteredTodayEvents = this.todayEvents.filter(matchesFilters);
-    this.filteredUpcomingEvents = this.upcomingEvents.filter(matchesFilters);
-    this.filteredPastEvents = this.pastEvents.filter(matchesFilters);
-  }
+  this.filteredTodayEvents = this.todayEvents.filter(matchesFilters);
+  this.filteredUpcomingEvents = this.upcomingEvents.filter(matchesFilters);
+  this.filteredPastEvents = this.pastEvents.filter(matchesFilters);
+}
+
 
   resetFilters(): void {
     this.selectedStatus = null;
