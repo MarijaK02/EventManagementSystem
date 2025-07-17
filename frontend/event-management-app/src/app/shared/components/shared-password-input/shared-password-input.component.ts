@@ -23,13 +23,15 @@ export class SharedPasswordInputComponent {
   ngOnInit(): void {
   }
 
-  togglePasswordVisibility(): void {
+  togglePasswordVisibility(event: MouseEvent): void {
+    event.stopPropagation();
     this.showPassword = !this.showPassword;
     this.type = this.showPassword ? 'text' : 'password';
   }
 
   onInputChange(event: Event): void {
     const inputElement = event.target as HTMLInputElement;
+    console.log(inputElement.value)
     this.passwordChange.emit(inputElement.value);
   }
 }

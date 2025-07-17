@@ -10,7 +10,7 @@
           placeholder="Внесете e-mail"
           formControlName="email"
         />
-        
+
         <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
           Ве молиме внесете e-mail адреса
         </mat-error>
@@ -31,12 +31,12 @@
           [type]="showPassword ? 'text' : 'password'"
           class="password-input"
         />
-        
+
         <button mat-icon-button type="button" (click)="togglePasswordVisibility()">
           <mat-icon>{{ showPassword ? 'visibility_off' : 'visibility' }}</mat-icon>
         </button>
-        
-        
+
+
         <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
           Ве молиме внесете лозинка
         </mat-error>
@@ -56,9 +56,13 @@
       mat-flat-button
       type="submit"
       class="submit-button"
-      [disabled]="loginForm?.invalid"
+      [disabled]="loginForm.invalid"
     >
       Најави се
     </button>
+
+    <div class="register-container">
+      Dont have an account? <a href="/register" class="register-link">Register Now!</a>
+    </div>
   </form>
 </div>

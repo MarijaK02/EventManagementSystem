@@ -1,40 +1,78 @@
 <div class="container">
   <h2>Регистрирај се</h2>
-  <form *ngIf="!!registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+  <form *ngIf="registerForm" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <!-- Role Field -->
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Role</mat-label>
+        <mat-select formControlName="role">
+          <mat-option *ngFor="let role of userRoles" [value]="role">{{ role }}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- Name Field -->
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Ime</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Внесете име"
+          formControlName="name"
+        />
+        <mat-error *ngIf="registerForm?.get('name')?.hasError('required')">Poleto e zadolzitelno!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Surname Field -->
+    <div class="form-control">
+      <mat-form-field>
+        <mat-label>Prezime</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Внесете презиме"
+          formControlName="surname"
+        />
+        <mat-error *ngIf="registerForm?.get('surname')?.hasError('required')">Poleto e zadolzitelno!</mat-error>
+      </mat-form-field>
+    </div>
+
+    <!-- Username Field -->
     <div class="form-control">
       <mat-form-field>
         <mat-label>Kорисничко име</mat-label>
         <input
-         matInput
+          matInput
           type="text"
           placeholder="Внесете корисничко име"
           formControlName="username"
-          class="form-control"
         />
-        <mat-error>
-          Корисничкото име мора да содржи повеќе од 3 карактери.
-        </mat-error>
+        <mat-error *ngIf="registerForm?.get('username')?.hasError('required')">Корисничкото име е задолжително!</mat-error>
+        <mat-error *ngIf="registerForm?.get('username')?.hasError('minlength')">Корисничкото име мора да содржи најмалку 3 карактери!</mat-error>
       </mat-form-field>
     </div>
 
+    <!-- Email Field -->
     <div class="form-control">
       <mat-form-field>
         <mat-label>Е-mail</mat-label>
         <input
-         matInput
+          matInput
           type="email"
-          placeholder="Внесете e-mail"
+          placeholder="Внесете email"
           formControlName="email"
-          class="form-control"
         />
-        <mat-error>
-          Ве молиме внесете валидна е-mail адреса
-        </mat-error>
+        <mat-error *ngIf="registerForm?.get('email')?.hasError('required')">Ве молиме внесете валиден e-mail адреса.</mat-error>
+        <mat-error *ngIf="registerForm?.get('email')?.hasError('email')">Ве молиме внесете валиден e-mail.</mat-error>
       </mat-form-field>
     </div>
 
+    <!-- Password Field -->
     <div class="form-control">
-     <app-shared-password-input
+      <app-shared-password-input
         [control]="getPasswordControl()"
         [label]="'Лозинка'"
         [placeholder]="'Внесете лозинка'"
@@ -42,6 +80,7 @@
       ></app-shared-password-input>
     </div>
 
+    <!-- Confirm Password Field -->
     <div class="form-control">
       <app-shared-password-input
         [control]="getConfirmPasswordControl()"
@@ -51,6 +90,9 @@
       ></app-shared-password-input>
     </div>
 
-    <button mat-flat-button type="submit" class="submit-button" [disabled]="registerForm.invalid">Потврди</button>
+    <!-- Submit Button -->
+    <button mat-flat-button type="submit" class="submit-button">
+      Потврди
+    </button>
   </form>
 </div>

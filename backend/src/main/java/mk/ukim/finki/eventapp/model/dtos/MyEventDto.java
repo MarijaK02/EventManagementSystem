@@ -1,24 +1,21 @@
-package mk.ukim.finki.eventapp.model;
+package mk.ukim.finki.eventapp.model.dtos;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
+import mk.ukim.finki.eventapp.model.User;
 import mk.ukim.finki.eventapp.model.enumerations.Status;
 import mk.ukim.finki.eventapp.model.enumerations.Type;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-public class EventRequestDTO {
+import java.time.LocalDateTime;
+
+public class MyEventDto {
+    private Long id;
     private String name;
     private String description;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    private Type type;
+    private String imageUrl;
+    private String organizer;
     private String location;
     private Status status;
-    private String type;
-    private Long organizerId;
-}
 
+}

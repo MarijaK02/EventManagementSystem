@@ -7,6 +7,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
+import { AuthService } from '../../../core/services/auth/auth.service';
+import { Router } from '@angular/router'; // Add Router import
+import { User } from '../../../core/models/user';
 
 @Component({
   selector: 'app-login',
@@ -25,18 +28,23 @@ import { MatInputModule } from '@angular/material/input';
 export class LoginComponent implements OnInit {
   public loginForm: FormGroup | undefined;
   showPassword: boolean = false;
+  errorMessage: string | null = null; // For storing error messages
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authService: AuthService,
+    private router: Router // Inject Router for navigation
+  ) {}
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: [
-        '', 
+        '',
         [
-          Validators.required, 
-          Validators.minLength(6), 
-          passwordValidator // Add the custom passwordValidator
+          Validators.required,
+          Validators.minLength(6),
+          passwordValidator
         ]
       ]
     });
@@ -48,7 +56,7 @@ export class LoginComponent implements OnInit {
 
   public getPasswordErrorMessage(): string {
     const passwordControl = this.loginForm?.get('password');
-    
+
     if (passwordControl?.hasError('required')) {
       return 'Ве молиме внесете лозинка';
     }
@@ -76,7 +84,27 @@ export class LoginComponent implements OnInit {
 
   onSubmit(): void {
     if (this.loginForm?.valid) {
-      console.log('Login Form Submitted:', this.loginForm.value);
+      const email = this.loginForm?.get('email')?.value;
+      const password = this.loginForm?.get('password')?.value;
+
+      // Call login API from AuthService
+      this.authService.login(email, password).subscribe({
+        next: (response: any) => {
+          localStorage.setItem('token', response.token);
+          localStorage.setItem('email', response.email);
+          localStorage.setItem('role', response.role);
+          this.authService.setAuthenticated(true);
+          this.router.navigate(['/home'])
+        },
+        error: (error) => {
+          console.error(error)
+
+          this.errorMessage = 'Invalid credentials';
+        },
+        complete: () => {
+          console.log("Login successfull!")
+        }
+      })
     } else {
       console.log('Login Form is not valid!');
     }
